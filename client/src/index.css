@@ -14,7 +14,7 @@ h1 {
 
 table {
   margin: auto;
-  border: 1px solid #333;
+  border: 2px solid #110957;
 }
 
 th, td {
@@ -23,7 +23,7 @@ th, td {
 }
 
 th.player {
-  min-width: 120px;
+  min-width: 150px;
 }
 
 td.sets {
@@ -36,5 +36,11 @@ a {
 }
 
 a:hover {
-  color: #5e5eff;
+  color: #8888ff;
+  transition-duration: 100ms;
+}
+
+.credits {
+  text-align: right;
+  margin: auto;
 }

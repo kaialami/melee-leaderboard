@@ -1,6 +1,7 @@
 import Navbar from './Navbar.js';
 import Title from './Title.js';
 import Table from './Table.js';
+import Credits from './Credits.js';
 
 function App() {
 
@@ -8,7 +9,10 @@ function App() {
     <div className="App">
       <Navbar />
       <Title />
-      <Table />
+      <div className='main'>
+        <Table />
+        <Credits />
+      </div>
     </div>
   );
 }

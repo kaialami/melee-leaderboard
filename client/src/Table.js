@@ -1,22 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableHeader from "./TableHead.js";
 
 const Table = () => {
+    const startgg = "https://start.gg/user/";
     const [players, setPlayers] = useState([]);
-    return ( 
-        <table className="leaderboard">
-            <TableHeader />
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    {/* eslint-disable-next-line */}
-                    <td className="player"><a href="https://www.start.gg/user/19c63f43" target="_blank">kai</a></td>
-                    <td>1500</td>
-                    <td className="sets">12</td>
-                    <td className="sets">15</td>
-                </tr>
-            </tbody>
-        </table>
+
+    useEffect(() => {
+        fetch("/players").then(res => res.json()).then( data => {
+            setPlayers(data);
+        })
+    }, []);
+
+    return (
+        <div>
+            {(players.length === 0) ? (<p>Loading...</p>): (
+                <table className="leaderboard">
+                    <TableHeader />
+                    <tbody>
+                        {players.map(player => {
+                            if (player.visible === 0) return <tr key={player.id}></tr>;
+
+                            let ranking = player.ranking;
+                            if (ranking == null) ranking = "n/a";
+                            return (
+                                <tr key={player.id}>
+                                    <td>{ranking}</td>
+                                    {/* eslint-disable-next-line */}
+                                    <td className="player"><a href={startgg + player.id} target="_blank">{player.username}</a></td>
+                                    <td>{player.elo}</td>
+                                    <td className="sets">{player.wins}</td>
+                                    <td className="sets">{player.played}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            )}
+        </div> 
     );
 }
  
