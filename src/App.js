@@ -1,6 +1,6 @@
-import Navbar from './Navbar';
-import Title from './Title';
-import Table from './Table';
+import Navbar from './Navbar.js';
+import Title from './Title.js';
+import Table from './Table.js';
 
 function App() {
 

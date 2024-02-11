@@ -1,0 +1,1 @@
+query EventSets($slug: String, $page: Int, $perPage: Int) { event(slug: $slug) { id name sets(page: $page, perPage: $perPage, sortType: RECENT) { pageInfo { total } nodes { id startedAt winnerId slots { entrant { id name participants { user { discriminator } } } } } } } }
