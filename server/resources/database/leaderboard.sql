@@ -10,7 +10,8 @@ CREATE TABLE player (
     ranking integer,
     elo integer DEFAULT 1000,
     wins integer DEFAULT 0,
-    played integer DEFAULT 0
+    played integer DEFAULT 0,
+    visible integer DEFAULT 1
 );
 
 CREATE TABLE tournament (
@@ -31,5 +32,5 @@ CREATE TABLE sets (
 );
 
 
-INSERT INTO player 
-VALUES('19c63f43', 'kai', 1, 1000, 0, 0);
+INSERT INTO player(id, username)
+VALUES('19c63f43', 'kai');

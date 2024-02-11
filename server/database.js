@@ -10,14 +10,14 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DB
 }).promise();
 
-async function getPlayers() {
-    const [rows] = await pool.query("SELECT * FROM player");
+export async function getPlayers() {
+    const [rows] = await pool.query("SELECT * FROM player ORDER BY ranking");
     return rows;
 }
 
-async function getPlayer(id) {
+export async function getPlayer(id) {
     const [rows] = await pool.query(`
-        SELECT *
+        SELECT ranking, username, elo, wins, played
         FROM player
         WHERE id = ?
     `, [id]);
@@ -27,5 +27,6 @@ async function getPlayer(id) {
 
 const players = await getPlayers();
 console.log(players);
-const kai = await getPlayer("19c63f4dd3");
-console.log(kai);
+
+// const kai = await getPlayer("19c63f43");
+// console.log(kai);

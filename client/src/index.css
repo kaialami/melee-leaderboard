@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&family=Protest+Riot&family=Sora:wght@400;500&display=swap');
+
 
 body {
   text-align: center;
-  /* font-family: "Nunito Sans"; */
-  color: #333;
+  font-family: 'Sora', sans-serif;
+  color: #333333;
+}
+
+h1 {
+  color: #3535a1;
 }
 
 table {
@@ -24,3 +30,11 @@ td.sets {
   text-align: right;
 }
 
+a {
+  text-decoration: none;
+  color: #12129c;
+}
+
+a:hover {
+  color: #5e5eff;
+}
