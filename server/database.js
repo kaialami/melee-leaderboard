@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 }).promise();
 
 export async function getPlayers() {
-    const [rows] = await pool.query("SELECT * FROM player ORDER BY ranking");
+    const [rows] = await pool.query("SELECT * FROM player ORDER BY elo DESC");
     return rows;
 }
 
