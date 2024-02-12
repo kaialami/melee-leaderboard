@@ -77,7 +77,7 @@ export async function getTournament(tournamentUrl) {
 }
 
 async function getQueryFromFile(file) {
-    return fs.readFile(`./resources/querying/${file}`, "utf8");
+    return fs.readFile(`./resources/queries/${file}`, "utf8");
 }
 
 // const data = await getEventSets("https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles");
