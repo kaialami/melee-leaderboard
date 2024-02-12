@@ -1,29 +1,18 @@
 import { useEffect, useState } from "react";
 import TableHeader from "./TableHead.js";
 import TableBody from "./TableBody.js";
+import useFetch from "./useFetch.js";
 
 const Table = () => {
-    const pathname = window.location.pathname;
-    const [players, setPlayers] = useState([]);
-
-    useEffect(() => {
-        let req = "/players"
-        if (pathname === "/dev") {
-            req = pathname;
-        }
-
-        fetch(req).then(res => res.json()).then(data => {
-            setPlayers(data)
-        })
-    }, []);
-
-    if (players.length === 0) return <p>Loading...</p>;
+    const { data: players, loading, error } = useFetch("/players");
 
     return (
         <div>
+            {error && <p>{error}</p>}
+            {loading && <p>Loading...</p>}
             <table className="leaderboard">
                 <TableHeader />
-                <TableBody players={players}/>
+                {players && <TableBody players={players}/>}
             </table>
         </div> 
     );
