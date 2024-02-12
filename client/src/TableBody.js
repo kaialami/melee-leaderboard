@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
+
 const TableBody = ({ players }) => {
-    const startgg = "https://start.gg/user/";
-    
     return ( 
         <tbody>
             {players.map(player => {
@@ -12,7 +12,10 @@ const TableBody = ({ players }) => {
                     <tr key={player.id}>
                         <td>{ranking}</td>
                         {/* eslint-disable-next-line */}
-                        <td className="player"><a href={startgg + player.id} target="_blank">{player.username}</a></td>
+                        <td className="player-column">
+                            {/* <a href={startgg + player.id} target="_blank">{player.username}</a> */}
+                            <Link to={"/player/" + player.id}>{player.username}</Link>
+                        </td>
                         <td>{player.elo}</td>
                         <td className="sets">{player.wins}</td>
                         <td className="sets">{player.played}</td>

@@ -2,6 +2,7 @@ import Dev from './Dev.js';
 import Docs from './Docs.js';
 import Home from './Home.js';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; 
+import Player from './Player.js';
 
 function App() {
 
@@ -12,11 +13,14 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/dev">
+          <Route path="/dev">
             <Dev />
           </Route>
-          <Route exact path="/docs">
+          <Route path="/docs">
             <Docs />
+          </Route>
+          <Route path="/player/:id">
+            <Player />
           </Route>
         </Switch>
       </div>

@@ -3,16 +3,16 @@ import TableBody from "./TableBody.js";
 import useFetch from "./useFetch.js";
 
 const Table = () => {
-    const { data: players, loading, error } = useFetch("/players");
+    const { data: players, loading, error } = useFetch("/all");
 
     return (
         <div className="table">
             {error && <p>{error}</p>}
             {loading && <p>Loading...</p>}
-            <table className="leaderboard">
+            {players && <table className="leaderboard">
                 <TableHeader />
-                {players && <TableBody players={players}/>}
-            </table>
+                <TableBody players={players}/>
+            </table>}
         </div> 
     );
 }

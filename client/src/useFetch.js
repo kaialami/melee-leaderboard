@@ -6,12 +6,9 @@ const useFetch = (url) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // let req = "/players"
-        // if (window.location.pathname === "/dev") {
-        //     req = window.location.pathname;
-        // }
+        const abortCont = new AbortController();
 
-        fetch(url).then(res => {
+        fetch(url, { signal: abortCont.signal }).then(res => {
             if (!res.ok) {
                 throw Error("Failed to fetch data");
             }
@@ -21,9 +18,13 @@ const useFetch = (url) => {
             setLoading(false);
             setError(null);
         }).catch(err => {
-            setError(err.message);
-            setLoading(false);
+            if (err.name !== "AbortError") {
+                setError(err.message);
+                setLoading(false);
+            }
         })
+
+        return () => abortCont.abort();
     }, [url]);
 
     return { data, loading, error };
