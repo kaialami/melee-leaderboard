@@ -24,7 +24,7 @@ export async function getEventSets(eventUrl) {
     const slug = eventUrl.substring(startgg.length);
 
     const query = await getQueryFromFile("EventSets.txt");
-    const result = await fetch(startggApi, {
+    const res = await fetch(startggApi, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -41,7 +41,7 @@ export async function getEventSets(eventUrl) {
         })
     });
     
-    return result.json();
+    return res.json();
 }
 
 /**
@@ -58,7 +58,7 @@ export async function getTournament(tournamentUrl) {
     slug = "tournament/" + slug.substring(0, slug.indexOf("/"));
 
     const query = await getQueryFromFile("Tournament.txt");
-    const result = await fetch(startggApi, {
+    const res = await fetch(startggApi, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -73,7 +73,7 @@ export async function getTournament(tournamentUrl) {
         })
     });
 
-    return result.json();
+    return res.json();
 }
 
 /**

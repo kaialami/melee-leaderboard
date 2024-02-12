@@ -36,21 +36,21 @@ export async function getPlayer(id) {
 
 export async function addPlayers(sets) {
     const players = await getPlayers();
-    const existing = existingPlayers(players);
+    let existing = existingPlayers(players);
 
     for (let set of sets) {
         const info = getSetInfo(set);
 
-        if (!existing.includes(info.p1)) {
+        if (!existing.includes(info.p1.id)) {
             addPlayer(info.p1);
+            existing.push(info.p1.id);
         }
 
-        if (!existing.includes(infor.p2)) {
+        if (!existing.includes(info.p2.id)) {
             addPlayer(info.p2);
+            existing.push(info.p2.id);
         }
     }
-
-    console.log(players);
 }
 
 function existingPlayers(players) {
