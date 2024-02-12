@@ -13,6 +13,7 @@
   "dependencies": {
     "dotenv": "^16.4.2",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "mysql2": "^3.9.1"
   },
   "devDependencies": {
