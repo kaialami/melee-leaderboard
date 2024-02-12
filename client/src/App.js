@@ -1,18 +1,10 @@
-import Navbar from './Navbar.js';
-import Title from './Title.js';
-import Table from './Table.js';
-import Credits from './Credits.js';
+import Home from './Home.js';
 
 function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <Title />
-      <div className='main'>
-        <Table />
-        <Credits />
-      </div>
+      <Home />
     </div>
   );
 }

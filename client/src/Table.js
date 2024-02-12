@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import TableHeader from "./TableHead.js";
 import TableBody from "./TableBody.js";
 import useFetch from "./useFetch.js";
