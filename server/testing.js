@@ -1,7 +1,8 @@
 import { addPlayers, addTournament, getPlayers, resetDatabase } from "./database.js";
 import { getEventSets } from "./query.js";
 
-const tournament = "https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles";
+// const tournament = "https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles";
+const tournament = "https://www.start.gg/tournament/janairy-2024/event/melee-singles";
 const result = await getEventSets(tournament);
 let sets;
 
@@ -13,5 +14,6 @@ try {
 }
 
 await resetDatabase();
-await addTournament("ubc-melee-weekly-36-pizza-time", "melee-singles");
-await addPlayers(sets.nodes, "ubc-melee-weekly-36-pizza-time");
+// await addTournament("ubc-melee-weekly-36-pizza-time", "melee-singles");
+await addTournament("janairy-2024", "melee-singles");
+await addPlayers(sets.nodes, "janairy-2024");
