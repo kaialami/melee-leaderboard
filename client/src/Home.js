@@ -1,3 +1,4 @@
+import Credits from "./Credits.js";
 import Table from "./Table.js";
 import Title from "./Title.js";
 
@@ -6,6 +7,7 @@ const Home = () => {
         <div className="home">
             <Title />
             <Table />
+            <Credits />
         </div>
     );
 }

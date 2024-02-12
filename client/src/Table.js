@@ -6,7 +6,7 @@ const Table = () => {
     const { data: players, loading, error } = useFetch("/players");
 
     return (
-        <div>
+        <div className="table">
             {error && <p>{error}</p>}
             {loading && <p>Loading...</p>}
             <table className="leaderboard">

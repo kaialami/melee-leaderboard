@@ -41,6 +41,9 @@ a:hover {
 }
 
 .credits {
-  text-align: right;
-  margin: auto;
+  margin-top: 25px;
+}
+
+.credits-line {
+  margin-bottom: 20px;
 }
