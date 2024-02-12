@@ -13,7 +13,7 @@ const startggKey = process.env.STARTGG_KEY;
 
 
 /** 
- * Queries start.gg for all the sets in an event (max 500 sets).
+ * Queries start.gg for all the sets in an event (max 500 sets). Sets are returned in reverse order in which they were completed.
  * 
  * Return value looks like {data: {event: id, name, sets: []}}
  * 
@@ -76,6 +76,47 @@ export async function getTournament(tournamentUrl) {
     return result.json();
 }
 
+/**
+ * Given a set (i.e. one node returned from getEventSets) return the set information.
+ * 
+ * Information includes both participants, winning player and winners (1) or losers (2) bracket.
+ * 
+ * @param {*} set Looks like { id, winnerId, round, slots: [ { entrant }, { entrant } ]}
+ * @returns Looks like { p1: { id, name }, p2: { id, name }, winner, bracket }
+ */
+export function getSetInfo(set) {
+
+    // { id, name, participants: [ { user: { discriminator } } ] }
+    const p1 = set.slots[0].entrant;
+    const p2 = set.slots[1].entrant;
+    
+    // start.gg discriminator
+    const id1 = p1.participants[0].user.discriminator;
+    const id2 = p2.participants[0].user.discriminator;
+    
+    // if losers bracket, bracket = 2
+    let bracket = 1;
+    if (set.round < 0) bracket = 2;
+
+    // winner === discriminator of the winning player
+    let winner = id1;
+    if (set.winnerId === p2.id) winner = id2;
+
+    return {
+        p1: {
+            id: id1,
+            name: p1.name
+        },
+        p2: {
+            id: id2,
+            name: p2.name
+        },
+        winner,
+        bracket
+    }
+    
+}
+
 async function getQueryFromFile(file) {
     return fs.readFile(`./resources/queries/${file}`, "utf8");
 }
@@ -83,8 +124,12 @@ async function getQueryFromFile(file) {
 // const data = await getEventSets("https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles");
 // const event = data.data.event;
 // const sets = event.sets
-// console.log(event);
-// console.log(sets);
+
+// const grands = sets.nodes[0];
+// console.log(grands);
+// console.log(getSetInfo(grands));
+
+
 
 // const data2 = await getTournament("https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles");
 // const tournament = data2.data.tournament;

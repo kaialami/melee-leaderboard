@@ -32,11 +32,11 @@ CREATE TABLE sets (
 );
 
 
-INSERT INTO player(id, username)
-VALUES('19c63f43', 'kai');
+-- INSERT INTO player(id, username)
+-- VALUES('19c63f43', 'kai');
 
-INSERT INTO player(id, username, ranking, elo)
-VALUES('cf34bfbd', 'Galint | ostracize', 2, 1111);
+-- INSERT INTO player(id, username, ranking, elo)
+-- VALUES('cf34bfbd', 'Galint | ostracize', 2, 1111);
 
-INSERT INTO player(id, username, ranking, elo)
-VALUES('09fcb259', 'GBGR | UBC | magnolia', 1, 1899);
+-- INSERT INTO player(id, username, ranking, elo)
+-- VALUES('09fcb259', 'GBGR | UBC | magnolia', 1, 1899);
