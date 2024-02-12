@@ -1,24 +1,20 @@
 import express from "express";
-import { getPlayers } from "./database.js";
+import { getPlayer, getPlayers } from "./database.js";
 
 const app = express();
 
-app.get("/players", async (req, res) => {
+app.get("/all", async (req, res) => {
     const players = await getPlayers();
     res.send(players);
 });
 
-app.get("/dev", (req, res) => {
-    res.send([{
-        id: 'dev',
-        username: 'dev',
-        ranking: 23,
-        elo: 2000,
-        wins: 10,
-        played: 22,
-        visible: 1
-    }]);
+app.get("/player/:id", async (req, res) => {
+    const id = req.params.id;
+    const player = await getPlayer(id);
+    res.send(player);
 })
+
+
 
 app.use(express.static("public"));
 

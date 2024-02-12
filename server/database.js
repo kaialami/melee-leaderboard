@@ -26,7 +26,7 @@ export async function getPlayers() {
 
 export async function getPlayer(id) {
     const [rows] = await pool.query(`
-        SELECT ranking, username, elo, wins, played
+        SELECT *
         FROM player
         WHERE id = ?
     `, [id]);
@@ -42,14 +42,16 @@ export async function addPlayers(sets) {
         const info = getSetInfo(set);
 
         if (!existing.includes(info.p1.id)) {
-            addPlayer(info.p1);
+            await addPlayer(info.p1);
             existing.push(info.p1.id);
         }
 
         if (!existing.includes(info.p2.id)) {
-            addPlayer(info.p2);
+            await addPlayer(info.p2);
             existing.push(info.p2.id);
         }
+
+        await updateNames(info.p1, info.p2);
     }
 }
 
@@ -63,6 +65,19 @@ function existingPlayers(players) {
 
 async function addPlayer(p) {
     return pool.query("INSERT INTO player(id, username) VALUES(?, ?)", [p.id, p.name]);
+}
+
+async function updateNames(p1, p2) {
+    const player1 = await getPlayer(p1.id);
+    const player2 = await getPlayer(p2.id);
+    
+    if (p1.name !== player1.username) {
+        await pool.query("UPDATE player SET username = ? WHERE id = ?", [p1.name, p1.id]);
+    }
+
+    if (p2.name !== player2.username) {
+        await pool.query("UPDATE player SET username = ? WHERE id = ?", [p2.name, p2.id]);
+    }
 }
 
 
