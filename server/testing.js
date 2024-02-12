@@ -1,4 +1,4 @@
-import { addPlayers, getPlayers, resetDatabase } from "./database.js";
+import { addPlayers, addTournament, getPlayers, resetDatabase } from "./database.js";
 import { getEventSets } from "./query.js";
 
 const tournament = "https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles";
@@ -13,5 +13,5 @@ try {
 }
 
 await resetDatabase();
-await addPlayers(sets.nodes);
-console.log(await getPlayers());
+await addTournament("ubc-melee-weekly-36-pizza-time", "melee-singles");
+await addPlayers(sets.nodes, "ubc-melee-weekly-36-pizza-time");

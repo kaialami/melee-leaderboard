@@ -24,11 +24,14 @@ CREATE TABLE sets (
     p2 VARCHAR(255),
     tournament VARCHAR(255),
     bracket int,
-    winner int NOT NULL,
-    PRIMARY KEY (p1, p2, tournament, bracket),
+    winner VARCHAR(255) NOT NULL,
+    grands int DEFAULT 0,
+    startedAt int, 
+    PRIMARY KEY (p1, p2, tournament, bracket, grands),
     FOREIGN KEY (p1) REFERENCES player(id),
     FOREIGN KEY (p2) REFERENCES player(id),
-    FOREIGN KEY (tournament) REFERENCES tournament(tournamentName)
+    FOREIGN KEY (tournament) REFERENCES tournament(tournamentName),
+    FOREIGN KEY (winner) REFERENCES player(id)
 );
 
 

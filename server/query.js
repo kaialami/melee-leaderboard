@@ -81,7 +81,7 @@ export async function getTournament(tournamentUrl) {
  * 
  * Information includes both participants, winning player and winners (1) or losers (2) bracket.
  * 
- * @param {*} set Looks like { id, winnerId, round, slots: [ { entrant }, { entrant } ]}
+ * @param {*} set Looks like { id, startedAt, winnerId, round, slots: [ { entrant }, { entrant } ]}
  * @returns Looks like { p1: { id, name }, p2: { id, name }, winner, bracket }
  */
 export function getSetInfo(set) {
@@ -102,6 +102,8 @@ export function getSetInfo(set) {
     let winner = id1;
     if (set.winnerId === p2.id) winner = id2;
 
+    const startedAt = set.startedAt;
+
     return {
         p1: {
             id: id1,
@@ -112,7 +114,8 @@ export function getSetInfo(set) {
             name: p2.name
         },
         winner,
-        bracket
+        bracket,
+        startedAt
     }
     
 }

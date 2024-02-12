@@ -8,4 +8,4 @@
 
 ## Sets
 - bracket is 1 for winners, 2 for losers bracket
-- winner is 1 for p1, 2 for p2
+- grands is 1 if set is grand finals
