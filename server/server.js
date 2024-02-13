@@ -3,8 +3,9 @@ import { getPlayer, getPlayers } from "./database.js";
 
 const app = express();
 
+
 app.get("/all", async (req, res) => {
-    const players = await getPlayers();
+    const players = await getPlayers(10);
     res.send(players);
 });
 

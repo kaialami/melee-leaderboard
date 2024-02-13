@@ -1,5 +1,5 @@
 import { start } from "repl";
-import { addPlayers, addTournament, getPlayers, getSets, getSetsByPlayer, resetDatabase, updateElo } from "./database.js";
+import { addPlayers, addTournament, getPlayers, getSets, getSetsByPlayer, resetDatabase, updateElo, updateRankings } from "./database.js";
 import { getEventSets } from "./query.js";
 import { promises as fs } from "fs";
 
@@ -21,8 +21,9 @@ async function addAndUpdate(urls) {
         await addTournament(tournament, event);
         await addPlayers(sets, tournament);
         let weight = 1;
-        if (tournament === "janairy-2024") weight = 2;
-        updateElo(tournament, weight);
+        if (tournament === "janairy-2024" || tournament == "octobair-2023") weight = 2;
+        await updateElo(tournament, weight);
+        await updateRankings();
     }
 }
 

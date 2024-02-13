@@ -30,14 +30,20 @@ export async function resetDatabase() {
 
 /**
  * Queries for all players.
- * @returns all players from Player in descending elo order
+ * @param played minimum number of sets played
+ * @returns players in descending elo order
  */
-export async function getPlayers() {
-    const [rows] = await pool.query("SELECT * FROM player ORDER BY elo DESC");
+export async function getPlayers(played) {
+    let where = "";
+    if (played !== undefined) {
+        where = `WHERE played >= ${played}`;
+    }
+    const [rows] = await pool.query("SELECT * FROM player " + where + " ORDER BY elo DESC");
     return rows;
 }
 
-/**
+
+/** 
  * Queries for a player by id.
  * @param {*} id start.gg discriminator
  * @returns one player from Player
@@ -136,6 +142,30 @@ export async function updateElo(tournament, weight) {
         SET elo = ?, wins = ?, played = ?
         WHERE id = ?`, [newRa, p1.wins + outcome, p1.played + 1, p1.id, newRb, p2.wins + (1 - outcome), p2.played + 1, p2.id]);
     }
+}
+
+export async function updateRankings() {
+    let players = await getPlayers(10);
+    if (players.length > 0) {
+        let prevRank = 1;
+        let prevElo = players[0].elo;
+
+        await updateRank(players[0], 1);
+
+        for (let i = 1; i < players.length; i++) {
+            let player = players[i];
+            if (player.elo === prevElo) {
+                await updateRank(player, prevRank);
+            } else {
+                await updateRank(player, i + 1);
+                prevRank = i;
+            }
+        }
+    }  
+}
+
+async function updateRank(player, rank) {
+    await pool.query("UPDATE player SET ranking = ? WHERE id = ?", [rank, player.id]);
 }
 
 /**
