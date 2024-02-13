@@ -18,12 +18,27 @@ const startggKey = process.env.STARTGG_KEY;
  * Return value looks like {data: {event: id, name, sets: []}}
  * 
  * @param {*} eventUrl Looks like https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles
- * @returns Promise of query response from the start.gg api as an object
+ * @returns Promise of nodes (sets) from API query
  */
 export async function getEventSets(eventUrl) {
     const slug = eventUrl.substring(startgg.length);
-
     const query = await getQueryFromFile("EventSets.txt");
+
+    let page = 1;
+    let res = await fetchPage(slug, query, page);
+    let nodes = res.data.event.sets.nodes;
+    const totalPages = res.data.event.sets.pageInfo.totalPages;
+
+    while (page < totalPages) {
+        page++;
+        res = await fetchPage(slug, query, page);
+        nodes = nodes.concat(res.data.event.sets.nodes);
+    }
+
+    return Promise.resolve(nodes);
+}
+
+async function fetchPage(slug, query, page) {
     const res = await fetch(startggApi, {
         method: "POST",
         headers: {
@@ -35,12 +50,12 @@ export async function getEventSets(eventUrl) {
             query: query,
             variables: {
                 slug: slug,
-                page: 1,
-                perPage: 500
+                page: page,
+                perPage: 50
             }
         })
     });
-    
+
     return res.json();
 }
 
@@ -81,59 +96,54 @@ export async function getTournament(tournamentUrl) {
  * 
  * Information includes both participants, winning player and winners (1) or losers (2) bracket.
  * 
- * @param {*} set Looks like { id, startedAt, winnerId, round, slots: [ { entrant }, { entrant } ]}
- * @returns Looks like { p1: { id, name }, p2: { id, name }, winner, bracket }
+ * @param {*} set Looks like { id, completedAt, fullRoundText, winnerId, round, slots: [ { entrant }, { entrant } ]}
+ * @returns Looks like { id, p1: { id, name }, p2: { id, name }, tournament, winner, bracket, completedAt, fullRoundText }
  */
-export function getSetInfo(set) {
+export function getSetInfo(set, tournament) {
+    try {
+        const id = set.id;
 
-    // { id, name, participants: [ { user: { discriminator } } ] }
-    const p1 = set.slots[0].entrant;
-    const p2 = set.slots[1].entrant;
+        // { id, name, participants: [ { user: { discriminator } } ] }
+        const p1 = set.slots[0].entrant;
+        const p2 = set.slots[1].entrant;
+        
+        // start.gg discriminator
+        const id1 = p1.participants[0].user.discriminator;
+        const id2 = p2.participants[0].user.discriminator;
+        
+        // if losers bracket, bracket = 2
+        let bracket = 1;
+        if (set.round < 0) bracket = 2;
     
-    // start.gg discriminator
-    const id1 = p1.participants[0].user.discriminator;
-    const id2 = p2.participants[0].user.discriminator;
+        // winner === discriminator of the winning player
+        let winner = id1;
+        if (set.winnerId === p2.id) winner = id2;
     
-    // if losers bracket, bracket = 2
-    let bracket = 1;
-    if (set.round < 0) bracket = 2;
+        const completedAt = set.completedAt;
+        const fullRoundText = set.fullRoundText;
 
-    // winner === discriminator of the winning player
-    let winner = id1;
-    if (set.winnerId === p2.id) winner = id2;
-
-    const startedAt = set.startedAt;
-
-    return {
-        p1: {
-            id: id1,
-            name: p1.name
-        },
-        p2: {
-            id: id2,
-            name: p2.name
-        },
-        winner,
-        bracket,
-        startedAt
+        return {
+            id,
+            p1: {
+                id: id1,
+                name: p1.name
+            },
+            p2: {
+                id: id2,
+                name: p2.name
+            },
+            tournament,
+            winner,
+            bracket,
+            completedAt,
+            fullRoundText
+        }
+    } catch (err) {
+        throw Error("missing set properties");
     }
-    
+   
 }
 
 async function getQueryFromFile(file) {
     return fs.readFile(`./resources/queries/${file}`, "utf8");
 }
-
-// const data = await getEventSets("https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles");
-// const event = data.data.event;
-// const sets = event.sets
-
-// const grands = sets.nodes[0];
-// console.log(grands);
-// console.log(getSetInfo(grands));
-
-
-
-// const data2 = await getTournament("https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles");
-// const tournament = data2.data.tournament;
-// console.log(tournament.name);

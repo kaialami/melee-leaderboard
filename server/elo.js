@@ -14,14 +14,14 @@ const lowest = 1000;
  * @param {*} outcome 1 if A won, 0 if A lost
  * @param {*} bracket 1 if winners bracket, 2 if losers
  */
-export function calculate(ra, rb, outcome, bracket) {
+export function calculate(ra, rb, outcome, bracket, weight) {
     let expected = (10 ** (ra / c)) / (10 ** (ra / c) + 10 ** (rb / c));
-    let change = Math.round(k * (outcome - expected) / bracket);
+    let change = Math.round(k * weight * (outcome - expected) / bracket);
     let newRa = Math.max(ra + change, lowest);
     let newRb = Math.max(rb - change, lowest);
     
     return { newRa, newRb , change};
 }
 
-let result = calculate(1100, 1200, 1, 2);
-console.log(result);
+// let result = calculate(1100, 1200, 1, 2);
+// console.log(result);

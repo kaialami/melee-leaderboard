@@ -8,7 +8,7 @@ CREATE TABLE player (
     id VARCHAR(255) PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     ranking integer,
-    elo integer DEFAULT 1000,
+    elo integer DEFAULT 1500,
     wins integer DEFAULT 0,
     played integer DEFAULT 0,
     visible integer DEFAULT 1
@@ -20,26 +20,16 @@ CREATE TABLE tournament (
 );
 
 CREATE TABLE sets (
+    id int PRIMARY KEY,
+    tournament VARCHAR(255),
     p1 VARCHAR(255),
     p2 VARCHAR(255),
-    tournament VARCHAR(255),
-    bracket int,
     winner VARCHAR(255) NOT NULL,
-    grands int DEFAULT 0,
-    startedAt int, 
-    PRIMARY KEY (p1, p2, tournament, bracket, grands),
+    bracket int,
+    round VARCHAR(255),
+    completedAt int, 
     FOREIGN KEY (p1) REFERENCES player(id),
     FOREIGN KEY (p2) REFERENCES player(id),
     FOREIGN KEY (tournament) REFERENCES tournament(tournamentName),
     FOREIGN KEY (winner) REFERENCES player(id)
 );
-
-
--- INSERT INTO player(id, username)
--- VALUES('19c63f43', 'kai');
-
--- INSERT INTO player(id, username, ranking, elo)
--- VALUES('cf34bfbd', 'Galint | ostracize', 2, 1111);
-
--- INSERT INTO player(id, username, ranking, elo)
--- VALUES('09fcb259', 'GBGR | UBC | magnolia', 1, 1899);

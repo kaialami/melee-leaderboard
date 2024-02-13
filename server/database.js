@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { promises as fs } from "fs";
 
 import { getSetInfo } from "./query.js";
+import { calculate } from "./Elo.js";
 
 dotenv.config();
 
@@ -60,24 +61,25 @@ export async function addPlayers(sets, tournament) {
     const players = await getPlayers();
     let existing = existingPlayers(players);
 
-    let grands = true;
-
     for (let set of sets) {
-        const info = getSetInfo(set);
+        try {
+            const info = getSetInfo(set, tournament);
 
-        if (!existing.includes(info.p1.id)) {
-            await addPlayer(info.p1);
-            existing.push(info.p1.id);
+            if (!existing.includes(info.p1.id)) {
+                await addPlayer(info.p1);
+                existing.push(info.p1.id);
+            }
+    
+            if (!existing.includes(info.p2.id)) {
+                await addPlayer(info.p2);
+                existing.push(info.p2.id);
+            }
+    
+            await updateNames(info.p1, info.p2);
+            await addSet(info);
+        } catch (err) {
+            // skip set
         }
-
-        if (!existing.includes(info.p2.id)) {
-            await addPlayer(info.p2);
-            existing.push(info.p2.id);
-        }
-
-        await updateNames(info.p1, info.p2);
-        await addSet(info, tournament, grands);
-        grands = false;
     }
 }
 
@@ -98,6 +100,43 @@ export async function addTournament(tournament, event) {
     }
 }
 
+export async function getSets(order) {
+    const [rows] = await pool.query(`SELECT * FROM sets ORDER BY completedAt ${order}`);
+    return rows;
+}
+
+export async function getSetsByPlayer(id, order) {
+    const [rows] = await pool.query(`SELECT * FROM sets WHERE p1 = ? OR p2 = ? ORDER BY completedAt ${order}`, [id, id]);
+    return rows;
+}
+
+export async function getSetsByTournament(tournament, order) {
+    const [rows] = await pool.query(`SELECT * FROM sets WHERE tournament = ? ORDER BY completedAt ${order}`, [tournament]);
+    return rows;
+}
+
+export async function updateElo(tournament, weight) {
+    const sets = await getSetsByTournament(tournament, "asc");
+    for (let set of sets) {
+        let outcome = 1;
+        if (set.winner === set.p2) {
+            outcome = 0;
+        }
+
+        const p1 = await getPlayer(set.p1);
+        const p2 = await getPlayer(set.p2);
+
+        let { newRa, newRb, change } = calculate(p1.elo, p2.elo, outcome, set.bracket, weight);
+        
+        await pool.query(`
+        UPDATE player 
+        SET elo = ?, wins = ?, played = ?
+        WHERE id = ?; 
+        UPDATE player 
+        SET elo = ?, wins = ?, played = ?
+        WHERE id = ?`, [newRa, p1.wins + outcome, p1.played + 1, p1.id, newRb, p2.wins + (1 - outcome), p2.played + 1, p2.id]);
+    }
+}
 
 /**
  * Helper function to get all ids of players already in the database.
@@ -143,24 +182,9 @@ async function updateNames(p1, p2) {
 /**
  * Helper function to add one set to the database.
  * @param {*} set result of getSetInfo
- * @param {*} tournament tournament key
- * @param {*} isGrands true if grands (avoids runback case)
  */
-async function addSet(set, tournament, isGrands) {
-    let grands = 0;
-    if (isGrands) grands = 1;
-
+async function addSet(set) {
     const p1 = set.p1.id;
     const p2 = set.p2.id;
-    await pool.query("INSERT INTO sets VALUES(?, ?, ?, ?, ?, ?, ?)", [p1, p2, tournament, set.bracket, set.winner, grands, set.startedAt]);
+    await pool.query("INSERT INTO sets VALUES(?, ?, ?, ?, ?, ?, ?, ?)", [set.id, set.tournament, p1, p2, set.winner, set.bracket, set.fullRoundText, set.completedAt]);
 }
-
-
-
-// const reset = await resetDatabase();
-// console.log(reset);
-
-// await addPlayer({id: '19c63f43', name: "kai"});
-
-// const players = await getPlayers();
-// console.log(players);

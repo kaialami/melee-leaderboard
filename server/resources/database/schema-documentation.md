@@ -7,5 +7,5 @@
 - Columns form the slug for the api (tournament/\<tournamentName\>/event/\<eventName\>)
 
 ## Sets
-- bracket is 1 for winners, 2 for losers bracket
+- bracket is 1 for winners, 3 for losers bracket
 - grands is 1 if set is grand finals

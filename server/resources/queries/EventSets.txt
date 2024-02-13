@@ -5,10 +5,12 @@ query EventSets($slug: String, $page: Int, $perPage: Int) {
     sets(page: $page, perPage: $perPage, sortType: RECENT) {
       pageInfo {
         total
+        totalPages
       }
       nodes {
         id
-        startedAt
+        completedAt
+        fullRoundText
         winnerId
         round
         slots {
