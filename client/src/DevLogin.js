@@ -2,20 +2,25 @@ import { useState } from "react";
 import useFetch from "./useFetch.js";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 
 const DevLogin = () => {
     const [password, setPassword] = useState("");
     const [checking, setChecking] = useState(false);
     const [loginFail, setLoginfail] = useState(false);
+
     const { data: dev, error } = useFetch("/dev");
     const history = useHistory();
+
+    const cookies = new Cookies()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setChecking(true);
         const body = JSON.stringify({ password: password });
         if (dev.length === 0) {
-            fetch("http://localhost:8080/signup", {
+            fetch("http://localhost:9090/signup", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"
@@ -25,20 +30,24 @@ const DevLogin = () => {
                 history.push("/dev");
             });
         } else {
-            fetch("http://localhost:8080/login", {
+            fetch("http://localhost:9090/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: body
-            }).then(res => res.json()).then((data) => {
-                if (data.redirect) {
+            }).then(res => {
+                if (res.ok) {
                     history.push("/dev");
                 }
                 setChecking(false);
                 setLoginfail(true);
             });
         }
+    }
+
+    const login = () => {
+
     }
 
 

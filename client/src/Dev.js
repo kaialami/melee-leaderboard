@@ -9,7 +9,7 @@ const Dev = () => {
         <div className="dev">
             <h1>Developer</h1>
             <div  className="home-link">
-                <Link to="/">log out</Link>
+                <Link to="/">go back</Link>
             </div>
             <Table />
         </div>

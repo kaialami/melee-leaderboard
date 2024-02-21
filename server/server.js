@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { getDev, getPlayer, getPlayers, insertDev } from "./database.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -49,46 +50,21 @@ app.get("/dev", async (req, res) => {
     res.send(dev);
 });
 
-app.post("/signup", jsonParser, async (req, res) => {
-    const passText = req.body["password"];
-    const hash = await bcrypt.hash(passText, 13);
-    try {
-        await insertDev(hash);
-        res.send({
-            status: 100,
-            message: "account created",
-            redirect: true
-        });
-    } catch (err) {
-        console.log(err);
-        res.send({
-            status: 200,
-            message: "account exists",
-            redirect: false
-        });
-    }
+app.get("/authenticated", authenticateToken, async (req, res) => {
+    res.send(req.user);
 });
 
-app.post("/login", jsonParser, async (req, res) => {
-    const [hash] = await getDev();
-    const { password } = req.body;
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (token == null) return res.sendStatus(401);
 
-    const isValid = await bcrypt.compare(password, hash.pass);
-    if (!isValid) {
-        res.send({
-            status: 201,
-            message: "wrong password",
-            redirect: false
-        });
-        return;
-    }
-    
-    res.send({
-        status: 101,
-        message: "logged in",
-        redirect: true
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
     });
-});
+}
 
 
 const port = 8080;

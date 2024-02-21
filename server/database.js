@@ -173,6 +173,18 @@ export async function insertDev(hash) {
     return pool.query("INSERT INTO dev VALUES('dev', ?)", [hash]);
 }
 
+export async function insertToken(token) {
+    return pool.query("INSERT INTO token(id) VALUES (?)", [token]);
+}
+
+export async function getToken(token) {
+    const [rows] = await pool.query("SELECT id FROM token WHERE id = ?", [token]);
+    return rows;
+}
+
+export async function deleteToken(token) {
+    return pool.query("DELETE FROM token WHERE id = ?", [token]);
+}
 
 async function updateRank(player, rank) {
     await pool.query("UPDATE player SET ranking = ? WHERE id = ?", [rank, player.id]);
