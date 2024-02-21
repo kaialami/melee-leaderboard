@@ -8,7 +8,7 @@ CREATE TABLE player (
     id VARCHAR(255) PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     ranking integer,
-    elo integer DEFAULT 1500,
+    elo integer DEFAULT 1000,
     wins integer DEFAULT 0,
     played integer DEFAULT 0,
     visible integer DEFAULT 1

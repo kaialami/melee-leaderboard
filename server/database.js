@@ -33,12 +33,12 @@ export async function resetDatabase() {
  * @param played minimum number of sets played
  * @returns players in descending elo order
  */
-export async function getPlayers(played) {
+export async function getPlayers(played, visible) {
     let where = "";
-    if (played !== undefined) {
-        where = `WHERE played >= ${played}`;
+    if (visible) {
+        where = "AND visible = 1 ";
     }
-    const [rows] = await pool.query("SELECT * FROM player " + where + " ORDER BY elo DESC");
+    const [rows] = await pool.query("SELECT * FROM player WHERE played >= ? " + where + "ORDER BY elo DESC", [played]);
     return rows;
 }
 
@@ -64,7 +64,7 @@ export async function getPlayer(id) {
  * @param {*} sets array of sets obtained from start.gg api query
  */
 export async function addPlayers(sets, tournament) {
-    const players = await getPlayers();
+    const players = await getPlayers(0, false);
     let existing = existingPlayers(players);
 
     for (let set of sets) {
@@ -145,7 +145,7 @@ export async function updateElo(tournament, weight) {
 }
 
 export async function updateRankings() {
-    let players = await getPlayers(10);
+    let players = await getPlayers(10, true);
     if (players.length > 0) {
         let prevRank = 1;
         let prevElo = players[0].elo;
@@ -163,6 +163,16 @@ export async function updateRankings() {
         }
     }  
 }
+
+export async function getDev() {
+    const [rows] = await pool.query("SELECT pass FROM DEV");
+    return rows;
+}
+
+export async function insertDev(hash) {
+    return pool.query("INSERT INTO dev VALUES('dev', ?)", [hash]);
+}
+
 
 async function updateRank(player, rank) {
     await pool.query("UPDATE player SET ranking = ? WHERE id = ?", [rank, player.id]);
