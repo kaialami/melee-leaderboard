@@ -3,7 +3,7 @@ import TableBody from "./TableBody.js";
 import useFetch from "./useFetch.js";
 
 const Table = () => {
-    const { data: players, loading, error } = useFetch("/all");
+    const { data: players, loading, error } = useFetch("/visible");
 
     return (
         <div className="table">

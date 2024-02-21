@@ -51,3 +51,33 @@ a:hover {
 .startgg-link {
   margin: 10px;
 }
+
+.dev {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.dev form {
+  margin-top: 20px;
+}
+
+input {
+  padding: 8px;
+  margin: 0 10px;
+}
+
+button {
+  padding: 8px;
+  border-radius: 3px;
+}
+
+button:hover {
+  color: #ddd;
+  background-color: #12129c;
+  cursor: pointer;
+  transition-duration: 100ms;
+}
+
+.home-link {
+  margin-bottom: 20px;
+}

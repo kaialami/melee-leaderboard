@@ -1,8 +1,9 @@
-import Dev from './Dev.js';
 import Docs from './Docs.js';
 import Home from './Home.js';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; 
 import Player from './Player.js';
+import DevLogin from './DevLogin.js';
+import Dev from './Dev.js';
 
 function App() {
 
@@ -13,13 +14,16 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/dev">
+          <Route exact path="/dev-login">
+            <DevLogin />
+          </Route>
+          <Route exact path="/dev">
             <Dev />
           </Route>
-          <Route path="/docs">
+          <Route exact path="/docs">
             <Docs />
           </Route>
-          <Route path="/player/:id">
+          <Route exact path="/player/:id">
             <Player />
           </Route>
         </Switch>

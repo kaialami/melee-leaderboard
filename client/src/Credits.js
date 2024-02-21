@@ -11,7 +11,7 @@ const Credits = () => {
                 <a className="facebook" href="https://www.facebook.com/groups/368908883137347"> facebook </a>
             </div>
             <div className="credits-line">
-                <Link className="dev-login"to="/dev"> dev login </Link>
+                <Link className="dev-login"to="/dev-login"> dev login </Link>
                 |
                 <Link className="docs" to="/docs"> documentation </Link>
             </div>
