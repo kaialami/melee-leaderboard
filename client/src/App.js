@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Player from './Player.js';
 import DevLogin from './DevLogin.js';
 import Dev from './Dev.js';
+import NotFound from './NotFound.js';
 
 function App() {
 
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route exact path="/player/:id">
             <Player />
+          </Route>
+          <Route path="*">
+            <NotFound />
           </Route>
         </Switch>
       </div>
