@@ -4,7 +4,7 @@ This leaderboard tracks every entrant in a UBC melee tournament. UBC tournaments
 
 Tournament data is retrieved through the [start.gg api](https://developer.start.gg/docs/intro/). Elo is calculated using the standard chess elo formula. Read more [here](https://stanislav-stankovic.medium.com/elo-rating-system-6196cc59941e). Elo changes are halved for losers bracket sets.
 
-Message @kaibiscus or a UBC melee exec in our [discord](https://discord.com/invite/dzHTudRSrN) if you don't want to be displayed on the leaderboard.  
+Message @kaibiscus on discord if you don't want to be displayed on the leaderboard.  
 
 
 by kai alami
