@@ -1,2 +1,2 @@
 # Server
-Backend - Express server, token authentication, MYSQL database, API calls
+Backend - Express server, token authentication, MYSQL database, API calls, elo calculator
