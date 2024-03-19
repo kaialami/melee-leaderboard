@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
-import { getDev, insertToken, getToken, deleteToken } from "./database.js";
+import { getDev, insertToken, getToken, deleteToken, insertDev } from "./database.js";
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -29,22 +29,15 @@ app.use(function (req, res, next) {
 });
 
 app.post("/signup", jsonParser, async (req, res) => {
-    const passText = req.body["password"];
-    const hash = await bcrypt.hash(passText, 13);
+    console.log("hi");
+    const { password } = req.body;
+    const hash = await bcrypt.hash(password, 13);
     try {
         await insertDev(hash);
         
-        const user = { name: "dev" }
-        const accessToken = generateAccessToken(user);
-        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-        await insertToken(refreshToken);
+        const token = generateAccessToken({ name: "dev" });
 
-        res.send({
-            message: "account created",
-            redirect: true,
-            accessToken: accessToken,
-            refreshToken: refreshToken
-        });
+        res.json({ token: token });
     } catch (err) {
         console.log(err);
         res.sendStatus(403);
@@ -61,41 +54,13 @@ app.post("/login", jsonParser, async (req, res) => {
         return;
     }
 
-    const user = { name: "dev" }
-    const accessToken = generateAccessToken(user);
-    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-    await insertToken(refreshToken);
-    
-    res.send({
-        message: "logged in",
-        redirect: true,
-        accessToken: accessToken,
-        refreshToken: refreshToken
-    });
-});
+    const token = generateAccessToken({ name: "dev" });
 
-app.post("/token", jsonParser, async (req, res) => {
-    const refreshToken = req.body.token;
-    if (refreshToken === null) return res.sendStatus(401);
-
-    const tokens = await getToken(refreshToken);
-    if (tokens.length === 0) return res.sendStatus(403);
-
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-        const accessToken = generateAccessToken({ name: "dev" });
-        res.send({ accessToken: accessToken });
-    })
-});
-
-app.delete("/logout", async (req, res) => {
-    const refreshToken = req.body.token;
-    await deleteToken(refreshToken);
-    res.sendStatus(204);
+    res.json({ token: token });
 });
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30min" });
 }
 
 const port = 9090;
