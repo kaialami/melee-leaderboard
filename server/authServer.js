@@ -29,7 +29,6 @@ app.use(function (req, res, next) {
 });
 
 app.post("/signup", jsonParser, async (req, res) => {
-    console.log("hi");
     const { password } = req.body;
     const hash = await bcrypt.hash(password, 13);
     try {

@@ -3,9 +3,10 @@ import Table from "./Table.js";
 import Title from "./Title.js";
 
 const Home = () => {
+    const title = "UBC Melee Leaderboard";
     return (
         <div className="home">
-            <Title />
+            <Title title={title}/>
             <Table />
             <Credits />
         </div>

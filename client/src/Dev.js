@@ -1,13 +1,16 @@
 import { Link, useHistory } from "react-router-dom";
 import Table from "./Table.js";
 import { useEffect } from "react";
+import Title from "./Title.js";
 
 const Dev = () => {
+    const title = "Developer Page";
     const history = useHistory();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
+            console.log("going to login");
             history.push("/dev-login");
         }
 
@@ -33,7 +36,7 @@ const Dev = () => {
  
     return (
         <div className="dev">
-            <h1>Developer Page</h1>
+            <Title title={title}/>
             <div className="home-link">
                 <Link to="/">home page </Link>
                 |

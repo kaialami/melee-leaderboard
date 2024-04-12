@@ -1,5 +1,4 @@
-const Title = () => {
-    const title = "UBC Melee Leaderboard";
+const Title = ({ title }) => {
 
     return ( 
         <div className="title">

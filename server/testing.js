@@ -3,11 +3,16 @@ import { addPlayers, addTournament, getPlayers, getSets, getSetsByPlayer, resetD
 import { getEventSets } from "./query.js";
 import { promises as fs } from "fs";
 
-async function addAndUpdate(urls) {
+async function addAndUpdate(tournaments) {
     resetDatabase();
 
     const startgg = "https://www.start.gg/";
-    for (let url of urls) {
+    for (let t of tournaments) {
+        const splitEntry = t.split(" ");
+        const url = splitEntry[0];
+        const isWeekly = splitEntry[1];
+        const weight = splitEntry[2];
+
         if (url === "") return;
 
         let prefix = startgg + "tournament/";
@@ -18,13 +23,15 @@ async function addAndUpdate(urls) {
         console.log(prefix + event, tournament, event);
 
         const sets = await getEventSets(prefix + event);
-        await addTournament(tournament, event);
-        await addPlayers(sets, tournament);
-        let weight = 1;
-        if (tournament === "janairy-2024" || tournament == "octobair-2023") weight = 2;
+        await addTournament(tournament, event, isWeekly, weight);
+        await addPlayers(sets, tournament, isWeekly);
+
         await updateElo(tournament, weight);
         await updateRankings();
     }
+
+    console.log("done");
+    
 }
 
 // const weeklyTournament = "https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles";

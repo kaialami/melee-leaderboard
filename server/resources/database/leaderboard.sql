@@ -11,12 +11,14 @@ CREATE TABLE player (
     elo integer DEFAULT 1000,
     wins integer DEFAULT 0,
     played integer DEFAULT 0,
-    visible integer DEFAULT 1
+    visible integer DEFAULT 0
 );
 
 CREATE TABLE tournament (
     tournamentName VARCHAR(255) PRIMARY KEY,
-    eventName VARCHAR(255) NOT NULL
+    eventName VARCHAR(255) NOT NULL,
+    isWeekly integer DEFAULT 1,
+    weight integer DEFAULT 1
 );
 
 CREATE TABLE sets (
@@ -28,6 +30,7 @@ CREATE TABLE sets (
     bracket int,
     round VARCHAR(255),
     completedAt int, 
+    eloChange int DEFAULT 0,
     FOREIGN KEY (p1) REFERENCES player(id),
     FOREIGN KEY (p2) REFERENCES player(id),
     FOREIGN KEY (tournament) REFERENCES tournament(tournamentName),
