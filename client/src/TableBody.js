@@ -13,7 +13,6 @@ const TableBody = ({ players }) => {
                         <td>{ranking}</td>
                         {/* eslint-disable-next-line */}
                         <td className="player-column">
-                            {/* <a href={startgg + player.id} target="_blank">{player.username}</a> */}
                             <Link to={"/player/" + player.id}>{player.username}</Link>
                         </td>
                         <td>{player.elo}</td>

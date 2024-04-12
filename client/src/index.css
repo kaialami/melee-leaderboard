@@ -30,6 +30,18 @@ td.sets {
   text-align: right;
 }
 
+td.elo {
+  text-align: right;
+}
+
+td.pos {
+  color: rgb(0, 85, 0);
+}
+
+td.neg {
+  color: rgb(95, 0, 0);
+}
+
 a {
   text-decoration: none;
   color: #12129c;
@@ -82,5 +94,9 @@ button:hover {
 }
 
 .logout-link {
+  margin-bottom: 20px;
+}
+
+.player-details-links {
   margin-bottom: 20px;
 }

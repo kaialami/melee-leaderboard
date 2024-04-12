@@ -133,6 +133,8 @@ export async function getSetsByTournament(tournament, order) {
     return rows;
 }
 
+
+
 export async function updateElo(tournament) {
     const t = await getTournament(tournament);
     const sets = await getSetsByTournament(tournament, "asc");
@@ -158,6 +160,8 @@ export async function updateElo(tournament) {
             SET elo = ?, wins = ?, played = ?
             WHERE id = ?`, [newRa, p1.wins + outcome, p1.played + 1, p1.id, newRb, p2.wins + (1 - outcome), p2.played + 1, p2.id]);
         } else { // someone is in placements - no loss penalty for either
+            await pool.query("UPDATE sets SET placement = 1 WHERE id = ?", [set.id]);
+            
             if (change > 0) { // p1 wins
                 await pool.query("UPDATE player SET elo = ?, wins = ?, played = ? WHERE id = ?", 
                     [newRa, p1.wins + outcome, p1.played + 1, p1.id]);
@@ -276,7 +280,7 @@ async function updateNames(p1, p2) {
  * @param {*} set result of getSetInfo
  */
 async function addSet(set) {
-    const p1 = set.p1.id;
-    const p2 = set.p2.id;
-    await pool.query("INSERT INTO sets VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)", [set.id, set.tournament, p1, p2, set.winner, set.bracket, set.fullRoundText, set.completedAt]);
+    const p1 = set.p1;
+    const p2 = set.p2;
+    await pool.query("INSERT INTO sets VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)", [set.id, set.tournament, p1.id, p1.name, p2.id, p2.name, set.winner, set.bracket, set.fullRoundText, set.completedAt, set.placement]);
 }

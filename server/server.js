@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getDev, getPlayer, getPlayers, insertDev } from "./database.js";
+import { getDev, getPlayer, getPlayers, getSetsByPlayer, insertDev } from "./database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -44,6 +44,13 @@ app.get("/player/:id", async (req, res) => {
     const player = await getPlayer(id);
     res.send(player);
 });
+
+app.get("/sets/:id", async (req, res) => {
+    const id = req.params.id;
+    const player = await getPlayer(id);
+    const sets = await getSetsByPlayer(player.id, "desc");
+    res.send(sets);
+})
 
 app.get("/dev", async (req, res) => {
     const dev = await getDev();

@@ -21,6 +21,7 @@ const Dev = () => {
             }
         }).then((res) => {
             if (!res.ok) {
+                localStorage.removeItem("token");
                 history.push("/dev-login");
             }
         }).catch((err) => {
