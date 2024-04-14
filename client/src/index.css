@@ -100,3 +100,31 @@ button:hover {
 .player-details-links {
   margin-bottom: 20px;
 }
+
+input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #555;
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked {
+  background: #abd;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.make-invisible {
+  margin: 10px;
+}

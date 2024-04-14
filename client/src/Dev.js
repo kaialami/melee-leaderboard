@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Title from "./Title.js";
 
 const Dev = () => {
-    const title = "Developer Page";
+    const title = "Admin";
     const history = useHistory();
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const Dev = () => {
                 |
                 <Link to="/" onClick={handleLogout}> logout</Link>
             </div>
-            <Table />
+            <Table dev={true}/>
         </div>
     );
 }

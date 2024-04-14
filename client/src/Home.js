@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <div className="home">
             <Title title={title}/>
-            <Table />
+            <Table dev={false}/>
             <Credits />
         </div>
     );

@@ -16,7 +16,7 @@ const DevLogin = () => {
         if (token) {
             history.push("/dev");
         }
-    }, [])
+    }, [history])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,7 +63,7 @@ const DevLogin = () => {
 
     return (
         <div className="dev">
-            <h1>Dev Login</h1>
+            <h1>Admin Login</h1>
             <Link to="/">go back</Link>
             {checking && <p>Validating...</p>}
             { !checking && 

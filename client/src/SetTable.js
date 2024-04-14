@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import useFetch from "./useFetch.js";
 
 const SetTable = ({player}) => {
@@ -22,12 +21,10 @@ const SetTable = ({player}) => {
                     </thead>
                     <tbody>
                         {sets.map(set => {
-                            let other = set.p2;
                             let otherName = set.p2name;
                             let change = set.eloChange;
 
                             if (player.id === set.p2) {
-                                other = set.p1;
                                 otherName = set.p1name;
                                 change = change * -1;
                             }
@@ -48,6 +45,7 @@ const SetTable = ({player}) => {
                                 <tr key={set.id} className={placement}>
                                     <td>{otherName}</td>
                                     <td>
+                                    {/* eslint-disable-next-line */}
                                         <a href={startgg + set.tournament + urlSuffix} target="_blank">{set.tournament}</a>
                                     </td>
                                     <td>{set.round}</td>

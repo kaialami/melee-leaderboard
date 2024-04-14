@@ -235,6 +235,18 @@ async function makeVisible(p1, p2) {
     await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [p2.id]);
 }
 
+export async function updateVisibility(checked, visibility) {
+    let promises = []
+    for (const [id, value] of Object.entries(checked)) {
+        if (value) {
+            promises.push(pool.query("UPDATE player SET visible = ? WHERE id = ?", [visibility, id]));
+        }
+    }
+    console.log(promises);
+    const result = await Promise.all(promises);
+    console.log(result);
+}
+
 /**
  * Helper function to get all ids of players already in the database.
  * @param {*} players array of players

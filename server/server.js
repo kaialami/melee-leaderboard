@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getDev, getPlayer, getPlayers, getSetsByPlayer, insertDev } from "./database.js";
+import { getDev, getPlayer, getPlayers, getSetsByPlayer, insertDev, updateRankings, updateVisibility } from "./database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -35,6 +35,11 @@ app.get("/visible", async (req, res) => {
     res.send(players);
 });
 
+app.get("/invisible", async (req, res) => {
+    const invisible = await getPlayers(10, false);
+    res.send(players);
+})
+
 app.get("/all", async (req, res) => {
     const players = await getPlayers(0, false);
 })
@@ -56,6 +61,19 @@ app.get("/dev", async (req, res) => {
     const dev = await getDev();
     res.send(dev);
 });
+
+app.post("/update-visibility", jsonParser, async (req, res) => {
+    const checked = req.body;
+    console.log(checked);
+    try {
+        await updateVisibility(checked, "0");
+        await updateRankings();
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+})
 
 app.get("/authenticated", authenticateToken, async (req, res) => {
     res.send(req.user);
