@@ -15,10 +15,10 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/dev-login">
+          <Route exact path="/admin-login">
             <DevLogin />
           </Route>
-          <Route exact path="/dev">
+          <Route exact path="/admin">
             <Dev />
           </Route>
           <Route exact path="/docs">

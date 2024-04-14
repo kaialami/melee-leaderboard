@@ -21,21 +21,25 @@ const startggKey = process.env.STARTGG_KEY;
  * @returns Promise of nodes (sets) from API query
  */
 export async function getEventSets(eventUrl) {
-    const slug = eventUrl.substring(startgg.length);
-    const query = await getQueryFromFile("EventSets.txt");
-
-    let page = 1;
-    let res = await fetchPage(slug, query, page);
-    let nodes = res.data.event.sets.nodes;
-    const totalPages = res.data.event.sets.pageInfo.totalPages;
-
-    while (page < totalPages) {
-        page++;
-        res = await fetchPage(slug, query, page);
-        nodes = nodes.concat(res.data.event.sets.nodes);
+    try {
+        const slug = eventUrl.substring(startgg.length);
+        const query = await getQueryFromFile("EventSets.txt");
+    
+        let page = 1;
+        let res = await fetchPage(slug, query, page);
+        let nodes = res.data.event.sets.nodes;
+        const totalPages = res.data.event.sets.pageInfo.totalPages;
+    
+        while (page < totalPages) {
+            page++;
+            res = await fetchPage(slug, query, page);
+            nodes = nodes.concat(res.data.event.sets.nodes);
+        }
+    
+        return Promise.resolve(nodes);
+    } catch (err) {
+        console.log(err);
     }
-
-    return Promise.resolve(nodes);
 }
 
 async function fetchPage(slug, query, page) {

@@ -23,7 +23,7 @@ const VisibleTable = ({ players }) => {
 
     const handleMakeInvisible = async (e) => {
         const body = JSON.stringify(checked);
-        fetch("http://localhost:8080/update-visibility", {
+        fetch("http://localhost:8080/make-invisible", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -43,6 +43,7 @@ const VisibleTable = ({ players }) => {
     return (  
         <div className="dev-visible">
             <h3>Visible Players</h3>
+            <p>Played 10 sets and either entered one UBC weekly or was forced visible by admin</p>
             <table className="dev-visible-table">
                 <thead>
                     <tr>

@@ -11,7 +11,7 @@ const Dev = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             console.log("going to login");
-            history.push("/dev-login");
+            history.push("/admin-login");
         }
 
         fetch("/authenticated", {
@@ -22,7 +22,7 @@ const Dev = () => {
         }).then((res) => {
             if (!res.ok) {
                 localStorage.removeItem("token");
-                history.push("/dev-login");
+                history.push("/admin-login");
             }
         }).catch((err) => {
             console.log(err);

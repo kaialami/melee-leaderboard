@@ -14,7 +14,7 @@ const DevLogin = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            history.push("/dev");
+            history.push("/admin");
         }
     }, [history])
 
@@ -57,7 +57,7 @@ const DevLogin = () => {
         if (res.ok) {
             const data = await res.json();
             localStorage.setItem("token", data.token);
-            history.push("/dev");
+            history.push("/admin");
         }
     }
 

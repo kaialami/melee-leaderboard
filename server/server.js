@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 const app = express();
 const jsonParser = bodyParser.json();
 
+const minPlayed = 10;
+
 // https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue 
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
@@ -31,13 +33,12 @@ app.use(function (req, res, next) {
 app.use(express.static("public"));
 
 app.get("/visible", async (req, res) => {
-    const players = await getPlayers(10, true);
-    console.log(players);
+    const players = await getPlayers(minPlayed, true);
     res.send(players);
 });
 
 app.get("/invisible", async (req, res) => {
-    const invisible = await getPlayers(10, false);
+    const invisible = await getPlayers(minPlayed, false);
     res.send(invisible);
 });
 
@@ -59,9 +60,8 @@ app.get("/dev", async (req, res) => {
     res.send(dev);
 });
 
-app.post("/update-visibility", jsonParser, async (req, res) => {
+app.post("/make-invisible", jsonParser, async (req, res) => {
     const checked = req.body;
-    console.log(checked);
     try {
         await updateVisibility(checked, 0);
         await updateRankings();
@@ -70,7 +70,19 @@ app.post("/update-visibility", jsonParser, async (req, res) => {
         console.log(err);
         res.sendStatus(500);
     }
-})
+});
+
+app.post("/make-visible", jsonParser, async (req, res) => {
+    const checked = req.body;
+    try {
+        await updateVisibility(checked, 1);
+        await updateRankings();
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
 
 app.get("/authenticated", authenticateToken, async (req, res) => {
     res.send(req.user);

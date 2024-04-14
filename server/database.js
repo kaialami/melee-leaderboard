@@ -37,11 +37,16 @@ export async function resetDatabase() {
  * @returns players in descending elo order
  */
 export async function getPlayers(played, visible) {
-    let where = "";
+    let where = "AND visible = 0 ";
     if (visible) {
         where = "AND visible = 1 ";
     }
     const [rows] = await pool.query("SELECT * FROM player WHERE played >= ? " + where + "ORDER BY elo DESC", [played]);
+    return rows;
+}
+
+export async function getAllPlayers() {
+    const [rows] = await pool.query("SELECT * FROM player");
     return rows;
 }
 
@@ -67,7 +72,7 @@ export async function getPlayer(id) {
  * @param {*} sets array of sets obtained from start.gg api query
  */
 export async function addPlayers(sets, tournament, isWeekly) {
-    const players = await getPlayers(0, false);
+    const players = await getAllPlayers();
     let existing = existingPlayers(players);
 
     for (let set of sets) {
@@ -250,6 +255,9 @@ export async function updateVisibility(checked, visibility) {
     for (const [id, value] of Object.entries(checked)) {
         if (value) {
             promises.push(pool.query("UPDATE player SET visible = ?, forceInvisible = ? WHERE id = ?", [visibility, forceInvisibile, id]));
+            if (visibility === 0) {
+                promises.push(pool.query("UPDATE player SET ranking = NULL WHERE id = ?", [id]));
+            }
         }
     }
     console.log(promises);

@@ -125,6 +125,6 @@ input[type='checkbox']:checked {
   flex-direction: column;
 }
 
-.make-invisible {
+.make-invisible, .make-visible {
   margin: 10px;
 }

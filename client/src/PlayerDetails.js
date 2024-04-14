@@ -12,7 +12,7 @@ const PlayerDetails = ({ player }) => {
                     {/* eslint-disable-next-line */}
                     <a href={startgg + player.id} target="_blank">start.gg</a>
                 </div>
-                <Link to="/">go back</Link>
+                <Link to="/">home page</Link>
             </div>
 
             <SetTable player={player}/>
