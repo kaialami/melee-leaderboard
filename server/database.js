@@ -6,6 +6,7 @@ import { getSetInfo } from "./query.js";
 import { calculate } from "./Elo.js";
 
 const minPlayed = 10;
+const placements = 5;
 
 dotenv.config();
 
@@ -151,7 +152,7 @@ export async function updateElo(tournament) {
 
 
 
-        if (p1.played >= minPlayed && p2.played >= minPlayed) { // neither in placements - normal elo changes
+        if (p1.wins >= placements && p2.wins >= placements) { // neither in placements - normal elo changes
             await pool.query(`
             UPDATE player 
             SET elo = ?, wins = ?, played = ?

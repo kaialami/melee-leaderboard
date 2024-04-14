@@ -36,11 +36,16 @@ const SetTable = ({player}) => {
                                 change = " ";
                             }
 
+                            if (change > 0) change = "+" + change;
+
                             let posneg = "pos";
                             if (change < 0) posneg = "neg";
+
+                            let placement = "not-placement";
+                            if (set.placement === 1) placement = "placement";
                             
                             return (
-                                <tr key={set.id}>
+                                <tr key={set.id} className={placement}>
                                     <td>{otherName}</td>
                                     <td>
                                         <a href={startgg + set.tournament + urlSuffix} target="_blank">{set.tournament}</a>
