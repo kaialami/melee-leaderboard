@@ -43,7 +43,8 @@ const VisibleTable = ({ players }) => {
     return (  
         <div className="dev-visible">
             <h3>Visible Players</h3>
-            <p>Played 10 sets and either entered one UBC weekly or was forced visible by admin</p>
+            <p>Played 10 sets</p>
+            <p>Entered one UBC weekly OR was forced visible by admin</p>
             <table className="dev-visible-table">
                 <thead>
                     <tr>

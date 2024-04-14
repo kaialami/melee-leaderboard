@@ -45,7 +45,8 @@ const InvisibleTable = () => {
     return (  
         <div className="dev-invisible">
             <h3>Invisible Players</h3>
-            <p>Played 10 sets and either did not enter a UBC weekly or was forced invisible by admin</p>
+            <p>Played 10 sets</p> 
+            <p>Did not enter a UBC weekly OR was forced invisible by admin</p>
             {error && <p>Failed to fetch data</p>}
             {players && <table className="dev-invisible-table">
                 <thead>
