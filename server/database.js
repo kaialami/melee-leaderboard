@@ -76,19 +76,25 @@ export async function addPlayers(sets, tournament, isWeekly) {
 
             if (!existing.includes(info.p1.id)) {
                 await addPlayer(info.p1);
+
+                if (isWeekly === "1") {
+                    makeVisible(info.p1);
+                }
+
                 existing.push(info.p1.id);
             }
     
             if (!existing.includes(info.p2.id)) {
                 await addPlayer(info.p2);
+                
+                if (isWeekly === "1") {
+                    makeVisible(info.p2);
+                }
+
                 existing.push(info.p2.id);
             }
     
             await updateNames(info.p1, info.p2);
-            
-            if (isWeekly === "1") {
-                await makeVisible(info.p1, info.p2);
-            }
 
             await addSet(info);
         } catch (err) {
@@ -230,9 +236,8 @@ async function updateRank(player, rank) {
     await pool.query("UPDATE player SET ranking = ? WHERE id = ?", [rank, player.id]);
 }
 
-async function makeVisible(p1, p2) {
-    await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [p1.id]);
-    await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [p2.id]);
+async function makeVisible(player) {
+    await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [[player.id]]);
 }
 
 export async function updateVisibility(checked, visibility) {
