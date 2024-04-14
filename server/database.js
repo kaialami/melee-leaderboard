@@ -76,25 +76,19 @@ export async function addPlayers(sets, tournament, isWeekly) {
 
             if (!existing.includes(info.p1.id)) {
                 await addPlayer(info.p1);
-
-                if (isWeekly === "1") {
-                    makeVisible(info.p1);
-                }
-
                 existing.push(info.p1.id);
             }
     
             if (!existing.includes(info.p2.id)) {
                 await addPlayer(info.p2);
-                
-                if (isWeekly === "1") {
-                    makeVisible(info.p2);
-                }
-
                 existing.push(info.p2.id);
             }
     
             await updateNames(info.p1, info.p2);
+            
+            if (isWeekly === "1") {
+                await makeVisible(info.p1, info.p2);
+            }
 
             await addSet(info);
         } catch (err) {
@@ -236,15 +230,26 @@ async function updateRank(player, rank) {
     await pool.query("UPDATE player SET ranking = ? WHERE id = ?", [rank, player.id]);
 }
 
-async function makeVisible(player) {
-    await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [[player.id]]);
+async function makeVisible(p1, p2) {
+    const [rows1] = await pool.query("SELECT * FROM player WHERE id = ?", [p1.id]);
+    const [rows2] = await pool.query("SELECT * FROM player WHERE id = ?", [p2.id]);
+
+    if (rows1[0].forceInvisible === 0) {
+        await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [p1.id]);
+    }
+
+    if (rows2[0].forceInvisible === 0) {
+        await pool.query("UPDATE player SET visible = 1 WHERE id = ?", [p2.id]);
+    }
 }
 
+
 export async function updateVisibility(checked, visibility) {
-    let promises = []
+    const forceInvisibile = (1 - visibility);
+    let promises = [];
     for (const [id, value] of Object.entries(checked)) {
         if (value) {
-            promises.push(pool.query("UPDATE player SET visible = ? WHERE id = ?", [visibility, id]));
+            promises.push(pool.query("UPDATE player SET visible = ?, forceInvisible = ? WHERE id = ?", [visibility, forceInvisibile, id]));
         }
     }
     console.log(promises);

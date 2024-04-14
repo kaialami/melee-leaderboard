@@ -11,7 +11,8 @@ CREATE TABLE player (
     elo integer DEFAULT 1000,
     wins integer DEFAULT 0,
     played integer DEFAULT 0,
-    visible integer DEFAULT 0
+    visible integer DEFAULT 0,
+    forceInvisible integer DEFAULT 0
 );
 
 CREATE TABLE tournament (
