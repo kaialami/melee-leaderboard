@@ -23,7 +23,7 @@ const DevLogin = () => {
         setChecking(true);
         const body = JSON.stringify({ password: password });
         if (dev.length === 0) {
-            fetch("http://localhost:9090/signup", {
+            fetch("/signup", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ const DevLogin = () => {
                 console.log(err);
             });
         } else {
-            fetch("http://localhost:9090/login", {
+            fetch("/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

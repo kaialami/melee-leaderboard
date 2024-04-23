@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { promises as fs } from "fs";
 
 import { getEventSets, getSetInfo } from "./query.js";
-import { calculate } from "./Elo.js";
+import { calculate } from "./elo.js";
 
 const minPlayed = 5;
 const placements = 5;

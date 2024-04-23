@@ -151,9 +151,43 @@ function authenticateToken(req, res, next) {
     });
 }
 
+app.post("/signup", jsonParser, async (req, res) => {
+    const { password } = req.body;
+    const hash = await bcrypt.hash(password, 13);
+    try {
+        await insertDev(hash);
+        
+        const token = generateAccessToken({ name: "dev" });
+
+        res.json({ token: token });
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(403);
+    }
+});
+
+app.post("/login", jsonParser, async (req, res) => {
+    const [hash] = await getDev();
+    const { password } = req.body;
+
+    const isValid = await bcrypt.compare(password, hash.pass);
+    if (!isValid) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const token = generateAccessToken({ name: "dev" });
+
+    res.json({ token: token });
+});
+
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30min" });
+}
+
 
 const port = 8080;
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`Server running on port ${port}`);
 });
 
