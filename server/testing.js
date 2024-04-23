@@ -4,7 +4,7 @@ import { getEventSets } from "./query.js";
 import { promises as fs } from "fs";
 
 async function addAndUpdate(tournaments) {
-    resetDatabase();
+    await resetDatabase();
 
     const startgg = "https://www.start.gg/";
     for (let t of tournaments) {
@@ -49,6 +49,8 @@ async function addAndUpdate(tournaments) {
 // await updateElo("janairy-2024", 2);
 // await updateElo("ubc-melee-weekly-36-pizza-time", 1);
 
-const urls = await fs.readFile("./resources/tournament-urls/urls.txt", "utf8");
-const splitUrls = urls.split(/\r?\n/);
-await addAndUpdate(splitUrls);
+// const urls = await fs.readFile("./resources/tournament-urls/urls.txt", "utf8");
+// const splitUrls = urls.split(/\r?\n/);
+// await addAndUpdate(splitUrls);
+
+await resetDatabase();

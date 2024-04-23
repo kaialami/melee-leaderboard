@@ -2,10 +2,10 @@ import mysql from "mysql2";
 import dotenv from "dotenv";
 import { promises as fs } from "fs";
 
-import { getSetInfo } from "./query.js";
+import { getEventSets, getSetInfo } from "./query.js";
 import { calculate } from "./Elo.js";
 
-const minPlayed = 10;
+const minPlayed = 5;
 const placements = 5;
 
 dotenv.config();
@@ -31,18 +31,35 @@ export async function resetDatabase() {
     return pool.query(sql);
 }
 
+export async function updateDatabase(tournament, event, isWeekly, weight) {
+    const url = "https://www.start.gg/tournament/" + tournament + "/event/" + event;
+    
+    try {
+        const sets = await getEventSets(url);
+        await addTournament(tournament, event, isWeekly, weight);
+        await addPlayers(sets, tournament, isWeekly);
+    
+        await updateElo(tournament, weight);
+        await updateRankings();
+    } catch (err) {
+        throw Error(err.message);
+    }
+
+}
+
 /**
  * Queries for all players.
  * @param played minimum number of sets played
  * @returns players in descending elo order
  */
 export async function getPlayers(played, visible) {
-    let where = "AND visible = 0 ";
     if (visible) {
-        where = "AND visible = 1 ";
+        const [rows] = await pool.query("SELECT * FROM player WHERE played >= ? AND visible = 1 ORDER BY elo DESC", [played]);
+        return rows;
+    } else {
+        const [rows] = await pool.query("SELECT * FROM player WHERE played < ? OR visible = 0 ORDER BY elo DESC", [played]);
+        return rows;
     }
-    const [rows] = await pool.query("SELECT * FROM player WHERE played >= ? " + where + "ORDER BY elo DESC", [played]);
-    return rows;
 }
 
 export async function getAllPlayers() {
@@ -91,7 +108,7 @@ export async function addPlayers(sets, tournament, isWeekly) {
     
             await updateNames(info.p1, info.p2);
             
-            if (isWeekly === "1") {
+            if (parseInt(isWeekly) === 1) {
                 await makeVisible(info.p1, info.p2);
             }
 
@@ -115,8 +132,21 @@ export async function addPlayers(sets, tournament, isWeekly) {
 export async function addTournament(tournament, event, isWeekly, weight) {
     const [rows] = await pool.query("SELECT * FROM tournament WHERE tournamentName = ?", [tournament]);
     if (rows.length === 0) {
-        await pool.query("INSERT INTO tournament VALUES(?, ?, ?, ?)", [tournament, event, isWeekly, weight]);
+        await pool.query("INSERT INTO tournament VALUES(?, ?, ?, ?, NOW())", [tournament, event, isWeekly, weight]);
     }
+}
+
+/**
+ * Get all tournaments in chronological or reverse-chronological order.
+ * @param {*} desc if true, order by desc dateAdded; otherwise by asc
+ * @returns tournaments ordered by dateAdded
+ */
+export async function getAllTournaments(desc) {
+    let order = "asc";
+    if (desc) order = "desc";
+
+    const [rows] = await pool.query("SELECT * FROM tournament ORDER BY dateAdded " + order);
+    return rows;
 }
 
 export async function getTournament(tournament) {

@@ -19,7 +19,8 @@ CREATE TABLE tournament (
     tournamentName VARCHAR(255) PRIMARY KEY,
     eventName VARCHAR(255) NOT NULL,
     isWeekly integer DEFAULT 1,
-    weight integer DEFAULT 1
+    weight integer DEFAULT 1,
+    dateAdded TIMESTAMP NOT NULL 
 );
 
 CREATE TABLE sets (

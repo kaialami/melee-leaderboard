@@ -1,19 +1,15 @@
 import { useHistory } from "react-router-dom";
 import Checkbox from "./Checkbox.js";
-import useFetch from "./useFetch.js";
 import { useEffect, useState } from "react";
 
-const InvisibleTable = () => {
-    const { data: players, error } = useFetch("/invisible");
+const InvisibleTable = ({ players }) => {
     const [checked, setChecked] = useState({});
     const [cerror, setCerror] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
-        if (players) {
-            for (const player of players) {
-                setChecked(prev => ({...prev, [player.id]: false}));
-            }
+        for (const player of players) {
+            setChecked(prev => ({...prev, [player.id]: false}));
         }
     }, [players]);
 
@@ -45,9 +41,8 @@ const InvisibleTable = () => {
     return (  
         <div className="dev-invisible">
             <h3>Invisible Players</h3>
-            <p>Played 10 sets</p> 
-            <p>Did not enter a UBC weekly OR was forced invisible by admin</p>
-            {error && <p>Failed to fetch data</p>}
+            <p>Played &lt; 5 sets or did not enter a UBC weekly</p>
+            <p>OR was forced invisible by admin</p>
             {players && <table className="dev-invisible-table">
                 <thead>
                     <tr>
@@ -72,8 +67,8 @@ const InvisibleTable = () => {
                                 <a href={"https://start.gg/user/" + player.id} target="_blank">{player.username}</a>
                             </td>
                             <td>{player.elo}</td>
-                            <td className="sets">{player.wins}</td>
-                            <td className="sets">{player.played}</td>
+                            <td className="cell-align-right">{player.wins}</td>
+                            <td className="cell-align-right">{player.played}</td>
                         </tr>
                     )
                     })}

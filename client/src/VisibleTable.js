@@ -43,8 +43,8 @@ const VisibleTable = ({ players }) => {
     return (  
         <div className="dev-visible">
             <h3>Visible Players</h3>
-            <p>Played 10 sets</p>
-            <p>Entered one UBC weekly OR was forced visible by admin</p>
+            <p>Played 5 sets and entered one UBC weekly</p>
+            <p>OR was forced visible by admin</p>
             <table className="dev-visible-table">
                 <thead>
                     <tr>
@@ -68,13 +68,12 @@ const VisibleTable = ({ players }) => {
                                     <Checkbox value={checked[player.id]} onChange={handleChange} name={player.id}/>
                                 </td>
                                 <td>{ranking}</td>
-                                {/* eslint-disable-next-line */}
                                 <td className="player-column">
                                     <Link to={"/player/" + player.id}>{player.username}</Link>
                                 </td>
                                 <td>{player.elo}</td>
-                                <td className="sets">{player.wins}</td>
-                                <td className="sets">{player.played}</td>
+                                <td className="cell-align-right">{player.wins}</td>
+                                <td className="cell-align-right">{player.played}</td>
                             </tr>
                         )
                     })}

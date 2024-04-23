@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
-import Table from "./Table.js";
 import { useEffect } from "react";
 import Title from "./Title.js";
+import DevTables from "./DevTables.js";
 
 const Dev = () => {
     const title = "Admin";
@@ -43,7 +43,7 @@ const Dev = () => {
                 |
                 <Link to="/" onClick={handleLogout}> logout</Link>
             </div>
-            <Table dev={true}/>
+            <DevTables />
         </div>
     );
 }

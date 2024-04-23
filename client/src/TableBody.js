@@ -16,8 +16,8 @@ const TableBody = ({ players }) => {
                             <Link to={"/player/" + player.id}>{player.username}</Link>
                         </td>
                         <td>{player.elo}</td>
-                        <td className="sets">{player.wins}</td>
-                        <td className="sets">{player.played}</td>
+                        <td className="cell-align-right">{player.wins}</td>
+                        <td className="cell-align-right">{player.played}</td>
                     </tr>
                 )
             })}

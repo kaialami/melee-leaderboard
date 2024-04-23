@@ -49,7 +49,7 @@ const SetTable = ({player}) => {
                                         <a href={startgg + set.tournament + urlSuffix} target="_blank">{set.tournament}</a>
                                     </td>
                                     <td>{set.round}</td>
-                                    <td className={"elo " + posneg}>{change}</td>
+                                    <td className={"cell-align-right " + posneg}>{change}</td>
                                 </tr>
                             )
                         })}

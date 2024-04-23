@@ -39,6 +39,7 @@ export async function getEventSets(eventUrl) {
         return Promise.resolve(nodes);
     } catch (err) {
         console.log(err);
+        throw Error(err.message);
     }
 }
 

@@ -13,7 +13,7 @@ const Player = () => {
         if (player && player.visible === 0) {
             setForbidden(true);
         } 
-    })
+    }, [player]);
 
     if (forbidden || error) {
         return (

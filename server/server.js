@@ -1,13 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getDev, getPlayer, getPlayers, getSetsByPlayer, updateRankings, updateVisibility } from "./database.js";
+import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, updateDatabase, updateRankings, updateVisibility } from "./database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const app = express();
 const jsonParser = bodyParser.json();
 
-const minPlayed = 10;
+const minPlayed = 5;
 
 // https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue 
 // Add headers before the routes are defined
@@ -55,10 +55,27 @@ app.get("/sets/:id", async (req, res) => {
     res.send(sets);
 })
 
+app.get("/tournaments", async (req, res) => {
+    const tournaments = await getAllTournaments(true);
+    res.send(tournaments);
+})
+
 app.get("/dev", async (req, res) => {
     const dev = await getDev();
     res.send(dev);
 });
+
+app.post("/add-tournament", jsonParser, async (req, res) => {
+    const params = req.body;
+    console.log(params);
+    try {
+        await updateDatabase(params.tournament, params.event, params.isWeekly, params.weight);
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+})
 
 app.post("/make-invisible", jsonParser, async (req, res) => {
     const checked = req.body;
@@ -83,6 +100,7 @@ app.post("/make-visible", jsonParser, async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 app.get("/authenticated", authenticateToken, async (req, res) => {
     res.send(req.user);
