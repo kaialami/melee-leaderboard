@@ -1,9 +1,9 @@
-https://www.start.gg/tournament/octobair-2023/event/melee-singles 0 2
-https://www.start.gg/tournament/ubc-melee-weekly-33-back-to-back/event/melee-singles 1 1
-https://www.start.gg/tournament/ubc-melee-weekly-34-hibernation-1/event/melee-singles 1 1
-https://www.start.gg/tournament/janairy-2024/event/melee-singles 0 2
-https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles 1 1
-https://www.start.gg/tournament/ubc-melee-weekly-37-cowabunga/event/melee-singles 1 1
-https://www.start.gg/tournament/ubc-melee-weekly-38-serious-ly/event/melee-singles 1 1
-https://www.start.gg/tournament/ubc-melee-weekly-39-hello-bob-c/event/melee-singles 1 1
-https://www.start.gg/tournament/battle-of-bc-6-7/event/melee-singles 0 3
+https://www.start.gg/tournament/octobair-2023/event/melee-singles 2
+https://www.start.gg/tournament/ubc-melee-weekly-33-back-to-back/event/melee-singles 1
+https://www.start.gg/tournament/ubc-melee-weekly-34-hibernation-1/event/melee-singles 1
+https://www.start.gg/tournament/janairy-2024/event/melee-singles 2
+https://www.start.gg/tournament/ubc-melee-weekly-36-pizza-time/event/melee-singles 1
+https://www.start.gg/tournament/ubc-melee-weekly-37-cowabunga/event/melee-singles 1
+https://www.start.gg/tournament/ubc-melee-weekly-38-serious-ly/event/melee-singles 1
+https://www.start.gg/tournament/ubc-melee-weekly-39-hello-bob-c/event/melee-singles 1
+https://www.start.gg/tournament/battle-of-bc-6-7/event/melee-singles 3

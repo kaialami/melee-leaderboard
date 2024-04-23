@@ -28,6 +28,7 @@ const Import = () => {
                 throw Error();
             }
         }).catch(err => {
+            setLoading(false);
             window.alert("Error parsing file - make sure it follows this format for each URL: \n<start.gg url> <weight> <newline>");
         })
     }
@@ -41,8 +42,9 @@ const Import = () => {
             {loading && 
                 <div>
                     <div className="loader"></div>
-                    <p>Updating database - page will reload shortly</p>
-                </div>}
+                    <p>Updating database</p>
+                    <p>Page will reload when done - may take a while...</p>
+                </div>} 
         </div>
     );
 }

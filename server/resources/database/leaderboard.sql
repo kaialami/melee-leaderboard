@@ -1,5 +1,3 @@
-USE melee_leaderboard;
-
 DROP TABLE sets;
 DROP TABLE player;
 DROP TABLE tournament;

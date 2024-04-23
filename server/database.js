@@ -175,7 +175,7 @@ export async function getAllTournaments(desc) {
     let order = "asc";
     if (desc) order = "desc";
 
-    const [rows] = await pool.query("SELECT * FROM tournament ORDER BY dateAdded " + order);
+    const [rows] = await pool.query("SELECT * FROM tournament ORDER BY dateAdded " + order + ";");
     return rows;
 }
 
@@ -270,7 +270,7 @@ export async function updateRankings() {
 }
 
 export async function getDev() {
-    const [rows] = await pool.query("SELECT pass FROM DEV");
+    const [rows] = await pool.query("SELECT pass FROM dev");
     return rows;
 }
 
@@ -320,9 +320,7 @@ export async function updateVisibility(checked, visibility) {
             }
         }
     }
-    console.log(promises);
     const result = await Promise.all(promises);
-    console.log(result);
 }
 
 /**

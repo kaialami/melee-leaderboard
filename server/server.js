@@ -1,11 +1,14 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
-import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, resetDatabase, updateDatabase, updateRankings, updateVisibility } from "./database.js";
+import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, insertDev, resetDatabase, updateDatabase, updateRankings, updateVisibility } from "./database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const app = express();
 const jsonParser = bodyParser.json();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const minPlayed = 5;
 
@@ -31,6 +34,12 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static("public"));
+// app.use(express.static(path.join(__dirname, "build")));
+
+// app.get("/*", (req, res) => {
+//     console.log(__dirname);
+//     res.sendFile(path.join(__dirname, "build", "index.html"));
+// })
 
 app.get("/visible", async (req, res) => {
     const players = await getPlayers(minPlayed, true);
@@ -61,8 +70,14 @@ app.get("/tournaments", async (req, res) => {
 })
 
 app.get("/dev", async (req, res) => {
-    const dev = await getDev();
-    res.send(dev);
+    try {
+        const dev = await getDev();
+        res.send(dev);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+
 });
 
 app.post("/add-tournament", jsonParser, async (req, res) => {
