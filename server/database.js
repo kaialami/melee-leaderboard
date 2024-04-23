@@ -31,9 +31,9 @@ export async function resetDatabase() {
     return pool.query(sql);
 }
 
-export async function updateDatabase(tournament, event, isWeekly, weight) {
-    const url = "https://www.start.gg/tournament/" + tournament + "/event/" + event;
-    
+export async function updateDatabase(url, isWeekly, weight) {
+    const { tournament, event } = parseUrl(url);
+
     try {
         const sets = await getEventSets(url);
         await addTournament(tournament, event, isWeekly, weight);
@@ -44,7 +44,36 @@ export async function updateDatabase(tournament, event, isWeekly, weight) {
     } catch (err) {
         throw Error(err.message);
     }
+    
+    
+}
 
+function parseUrl(url) {
+    let tournament = "";
+    let event = "";
+    
+    let prefix = "https://www.start.gg/tournament/";
+
+    if (!matches(url, prefix)) {
+        throw Error("Invalid URL");
+    };
+
+    tournament = url.substring(prefix.length);
+    tournament = tournament.substring(0, tournament.indexOf("/"));
+    prefix = prefix + tournament + "/event/";
+
+    if (!matches(url, prefix)) {
+        throw Error("Invalid URL");
+    };
+
+    event = url.substring(prefix.length);
+
+    return { tournament, event };
+}
+
+function matches(url, prefix) {
+    const urlPrefix = url.substring(0, prefix.length);
+    return prefix === urlPrefix;
 }
 
 /**

@@ -1,4 +1,5 @@
 import TournamentForm from "./TournamentForm.js";
+import TournamentOptions from "./TournamentOptions.js";
 
 const TournamentTable = ({ tournaments }) => {
     const url = "https://www.start.gg/tournament/";
@@ -11,10 +12,10 @@ const TournamentTable = ({ tournaments }) => {
             <table className="dev-tournament-table">
                 <thead>
                     <tr>
-                        <td>Tournament</td>
-                        <td>Event</td>
-                        <td>Weekly?</td>
-                        <td>Weight</td>
+                        <th>Tournament</th>
+                        <th>Event</th>
+                        <th>Weekly?</th>
+                        <th>Weight</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,6 +41,7 @@ const TournamentTable = ({ tournaments }) => {
                     })}
                 </tbody>
             </table>
+            <TournamentOptions />
         </div>
     );
 }

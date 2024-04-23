@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, updateDatabase, updateRankings, updateVisibility } from "./database.js";
+import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, resetDatabase, updateDatabase, updateRankings, updateVisibility } from "./database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -67,12 +67,10 @@ app.get("/dev", async (req, res) => {
 
 app.post("/add-tournament", jsonParser, async (req, res) => {
     const params = req.body;
-    console.log(params);
     try {
-        await updateDatabase(params.tournament, params.event, params.isWeekly, params.weight);
+        await updateDatabase(params.url, params.isWeekly, params.weight);
         res.sendStatus(200);
     } catch (err) {
-        console.log(err);
         res.sendStatus(500);
     }
 })
@@ -84,7 +82,6 @@ app.post("/make-invisible", jsonParser, async (req, res) => {
         await updateRankings();
         res.sendStatus(200);
     } catch (err) {
-        console.log(err);
         res.sendStatus(500);
     }
 });
@@ -96,10 +93,47 @@ app.post("/make-visible", jsonParser, async (req, res) => {
         await updateRankings();
         res.sendStatus(200);
     } catch (err) {
-        console.log(err);
         res.sendStatus(500);
     }
 });
+
+app.delete("/reset-database", async (req, res) => {
+    try {
+        await resetDatabase();
+        res.sendStatus(200);
+    } catch(err) {
+        res.sendStatus(500);
+    }
+});
+
+app.get("/export", async (req, res) => {
+    const tournaments = await getAllTournaments(false);
+    res.send(tournaments);
+});
+
+app.post("/import", jsonParser, async (req, res) => {
+    const body = req.body;
+
+    try {
+        const splitTournaments = body.content.split(/\r?\n/);
+        for (const tournament of splitTournaments) {
+            const splitEntry = tournament.split(" ");
+            const url = splitEntry[0];
+            const weight = parseInt(splitEntry[1]);
+    
+            if (url === "") break;
+
+            let isWeekly = 0;
+            if (weight === 1) isWeekly = 1;
+
+            await updateDatabase(url, isWeekly, weight);
+        }
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+    
+})
 
 
 app.get("/authenticated", authenticateToken, async (req, res) => {
