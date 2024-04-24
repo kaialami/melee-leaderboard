@@ -18,7 +18,7 @@
 
 # production
 # /build
-# /client/build
+/client/build
 /server/build
 
 # misc

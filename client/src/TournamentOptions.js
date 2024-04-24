@@ -7,6 +7,7 @@ const TournamentOptions = () => {
         <div className="dev-tournament-options">
             <Export />
             <Reset />
+            <hr />
             <Import />
         </div>
     );

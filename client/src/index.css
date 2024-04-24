@@ -189,3 +189,51 @@ input[type='checkbox']:checked {
   text-align: left;
   font-size: 18px;
 }
+
+.file-input {
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid black;
+  border-radius: 4px;
+  transition-duration: 150ms;
+}
+
+.dev-tournament-options hr {
+  border: 1px solid #110957;
+  width: 600px;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 650px) {
+  .dev-tournament-options hr {
+    border: 1px solid #110957;
+    width: 90%;
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  table {
+    max-width: 400px;
+  }
+
+  th, td {
+    padding: 4px 2px;
+    font-size: 12px;
+  }
+
+  .player-column {
+    padding: 0;
+  }
+
+  .docs p {
+    font-size: 16px;
+  }
+}
+
+/* .file-input:hover {
+  background-color: #3d3df1;
+  cursor: pointer;
+  transition-duration: 150ms;
+} */
+

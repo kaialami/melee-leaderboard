@@ -28,7 +28,7 @@ const Export = () => {
     }
 
     return (  
-        <button className="dev-export" onClick={handleClick}>Export URLs</button>
+        <button className="dev-export" onClick={handleClick}>Download URLs</button>
     );
 }
  

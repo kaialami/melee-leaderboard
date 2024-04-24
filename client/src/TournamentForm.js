@@ -50,7 +50,12 @@ const TournamentForm = () => {
 
     return (  
         <div className="dev-tournament-form">
-            {loading && <p>Loading... page will reload shortly</p>}
+            {loading && 
+            <div>
+                <div className="loader"></div>
+                <p>Updating database</p>
+                <p>Page will reload when done - may take a while...</p>
+            </div>} 
             {serverError && <p>Server Error - double check URL</p>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input {...register("url")} type="text" className="dev-tournament-form-url" required placeholder="https://www.start.gg/tournament/<name>/event/melee-singles" />

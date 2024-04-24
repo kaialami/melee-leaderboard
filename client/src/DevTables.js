@@ -29,9 +29,9 @@ const DevTables = () => {
         <div className="dev-tables">
             {error && <p>Failed to fetch data</p>}
             {!error && tournaments && <TournamentTable tournaments={tournaments} />}
-            <br />
+            <br /><br />
             {!error && visible && <VisibleTable players={visible}/>}
-            <br />
+            <br /><br />
             {!error && invisible && <InvisibleTable players={invisible} />}
         </div>
     );

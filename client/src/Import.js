@@ -36,8 +36,8 @@ const Import = () => {
     return (  
         <div className="dev-import">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("file")} required type="file" accept=".txt"/>
-                <input type="submit" value="Import URLs"/>
+                <input {...register("file")} required type="file" accept=".txt" id="file" className="file-input"/>
+                <input type="submit" value="Upload"/>
             </form>
             {loading && 
                 <div>

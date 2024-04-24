@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { getAllTournaments, getDev, getPlayer, getPlayers, getSetsByPlayer, insertDev, resetDatabase, updateDatabase, updateRankings, updateVisibility } from "./database.js";
@@ -10,6 +11,8 @@ const app = express();
 const jsonParser = bodyParser.json();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+dotenv.config();
+
 const minPlayed = 5;
 
 // https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue 
@@ -17,13 +20,13 @@ const minPlayed = 5;
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'https://ubcmelee.up.railway.app');
+    res.setHeader('Access-Control-Allow-Origin', process.env.REQUEST_URL);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
