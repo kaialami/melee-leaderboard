@@ -19,6 +19,10 @@ const pool = mysql.createPool({
     multipleStatements: true
 }).promise();
 
+pool.on("error", (err) => {
+    console.log(err);
+});
+
 /**
  * DANGER DANGER DANGER DANGER DANGER DANGER DANGER DANGER DANGER DANGER 
  * 
