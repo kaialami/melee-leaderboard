@@ -23,7 +23,7 @@ const VisibleTable = ({ players }) => {
 
     const handleMakeInvisible = async (e) => {
         const body = JSON.stringify(checked);
-        fetch(process.env.API_URL + "/make-invisible", {
+        fetch(process.env.REACT_APP_API_URL + "/make-invisible", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
