@@ -69,7 +69,7 @@ const DevLogin = () => {
             { !checking && 
             <form onSubmit={handleSubmit}>
                 <input 
-                    type="text" 
+                    type="password" 
                     required 
                     placeholder="password"
                     value={password}

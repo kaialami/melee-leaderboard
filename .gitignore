@@ -17,7 +17,7 @@
 /coverage
 
 # production
-# /build
+/build
 /client/build
 /server/build
 
