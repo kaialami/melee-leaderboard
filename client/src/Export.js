@@ -2,7 +2,7 @@ import useFetch from "./useFetch.js";
 
 const Export = () => {
     const startgg = "https://www.start.gg/tournament/";
-    const { data: tournaments } = useFetch("/export");
+    const { data: tournaments } = useFetch(process.env.REACT_APP_API_URL + "/export");
 
     const handleClick = () => {
         if (tournaments) {

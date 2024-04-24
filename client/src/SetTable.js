@@ -3,7 +3,7 @@ import useFetch from "./useFetch.js";
 const SetTable = ({player}) => {
     const startgg = "https://start.gg/tournament/";
     const urlSuffix = "/event/melee-singles";
-    const { data: sets, loading, error } = useFetch(`/sets/${player.id}`);
+    const { data: sets, loading, error } = useFetch(process.env.REACT_APP_API_URL + `/sets/${player.id}`);
 
     return (  
         <div className="set-table">

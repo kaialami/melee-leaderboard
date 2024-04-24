@@ -14,7 +14,7 @@ const Dev = () => {
             history.push("/admin-login");
         }
 
-        fetch("/authenticated", {
+        fetch(process.env.REACT_APP_API_URL + "/authenticated", {
             headers: {
                 Authorization: token,
                 "Content-Type": "application/json"

@@ -8,7 +8,7 @@ const DevLogin = () => {
     const [checking, setChecking] = useState(false);
     const [loginFail, setLoginfail] = useState(false);
 
-    const { data: dev } = useFetch("/dev");
+    const { data: dev } = useFetch(process.env.REACT_APP_API_URL + "/dev");
     const history = useHistory();
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const DevLogin = () => {
         setChecking(true);
         const body = JSON.stringify({ password: password });
         if (dev.length === 0) {
-            fetch("/signup", {
+            fetch(process.env.REACT_APP_API_URL + "/signup", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ const DevLogin = () => {
                 console.log(err);
             });
         } else {
-            fetch("/login", {
+            fetch(process.env.REACT_APP_API_URL + "/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

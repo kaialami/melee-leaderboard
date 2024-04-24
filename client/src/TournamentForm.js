@@ -28,7 +28,7 @@ const TournamentForm = () => {
                 isWeekly: isWeekly, 
                 weight: weight});
 
-            fetch("/add-tournament", {
+            fetch(process.env.API_URL + "/add-tournament", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

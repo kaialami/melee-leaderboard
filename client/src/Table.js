@@ -3,7 +3,7 @@ import TableBody from "./TableBody.js";
 import useFetch from "./useFetch.js";
 
 const Table = () => {
-    const { data: players, loading, error } = useFetch("/visible");
+    const { data: players, loading, error } = useFetch(process.env.REACT_APP_API_URL + "/visible");
 
     return (
         <div className="table">

@@ -6,7 +6,7 @@ import NotFound from "./NotFound.js";
 
 const Player = () => {
     const { id } = useParams();
-    const { data: player, loading, error } = useFetch(`/player/${id}`);
+    const { data: player, loading, error } = useFetch(process.env.REACT_APP_API_URL + `/player/${id}`);
     const [forbidden, setForbidden] = useState(false);
 
     useEffect(() => {

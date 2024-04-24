@@ -21,7 +21,7 @@ const InvisibleTable = ({ players }) => {
 
     const handleMakeVisible = async (e) => {
         const body = JSON.stringify(checked);
-        fetch("http://localhost:8080/make-visible", {
+        fetch(process.env.REACT_APP_API_URL + "/make-visible", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

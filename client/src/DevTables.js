@@ -5,9 +5,9 @@ import VisibleTable from "./VisibleTable.js";
 import useFetch from "./useFetch.js";
 
 const DevTables = () => {
-    const { data: visible, loadingVisible, errorVisible } = useFetch("/visible");
-    const { data: invisible, loadingInvisible, errorInvisible } = useFetch("/invisible");
-    const { data: tournaments, loadingTournaments, errorTournaments } = useFetch("/tournaments");
+    const { data: visible, loadingVisible, errorVisible } = useFetch(process.env.REACT_APP_API_URL + "/visible");
+    const { data: invisible, loadingInvisible, errorInvisible } = useFetch(process.env.REACT_APP_API_URL + "/invisible");
+    const { data: tournaments, loadingTournaments, errorTournaments } = useFetch(process.env.REACT_APP_API_URL + "/tournaments");
 
     const [error, setError] = useState(false);
 

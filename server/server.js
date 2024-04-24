@@ -17,7 +17,7 @@ const minPlayed = 5;
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'https://ubcmelee.up.railway.app');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -32,12 +32,6 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-
-
-app.use(express.static(path.join(__dirname, "build")));
-
-app.use(express.static("public"));
-
 
 app.get("/visible", async (req, res) => {
     const players = await getPlayers(minPlayed, true);
@@ -199,8 +193,8 @@ function generateAccessToken(user) {
 }
 
 
-const port = 8080;
-app.listen(process.env.PORT || port, () => {
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 

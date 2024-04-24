@@ -14,7 +14,7 @@ const Import = () => {
         const text = await file.text();
         const body = JSON.stringify({content: text});
 
-        fetch("/import", {
+        fetch(process.env.REACT_APP_API_URL + "/import", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
