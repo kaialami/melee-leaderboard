@@ -1,5 +1,7 @@
 # UBC Melee Leaderboard
 
+[ubcmelee.up.railway.app](https://ubcmelee.up.railway.app/)
+
 This leaderboard tracks entrants in the UBC melee community. Tournaments considered for the ranking include UBC weeklies, UBC-hosted regionals like Janairy 2023, and our region's only major, Battle of BC. 
 
 Tournament data is retrieved through the [start.gg API](https://developer.start.gg/docs/intro/). Elo is calculated using the standard chess elo formula. Read more [here](https://stanislav-stankovic.medium.com/elo-rating-system-6196cc59941e). The important part is that for each set completed in chronological order, there is a calculated elo change based on the difference in rating between the two players, and the difference between the expected and actual outcomes of the set. This elo change is added to the winner's rating and subtracted from the loser's. Game counts are not considered. Basically, you win more for beating a higher rated opponent and lose more for losing to a lower rated oponent. Elo changes are halved for losers bracket sets and have multipliers depending on the scale of the tournament: weeklies are 1x, regionals are 2x and majors are 3x. 
